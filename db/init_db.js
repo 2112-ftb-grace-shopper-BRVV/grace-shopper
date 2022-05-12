@@ -2,6 +2,7 @@ const {
   client,
   // declare your model imports here
   // for example, User
+  createUser, createProduct
 } = require('./');
 
 
@@ -70,7 +71,7 @@ async function createInitialUsers(){
   try {
 
     const usersToCreate=[
-{username:'vinny', password:'123', address:'5725 s mcvicker', email:'vinnyzef@whatever.com'},
+{username:'vinny', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever.com'},
 {username:'ryan', password:'456', address:'5725 s whatever', email:'ryanmail@ryan.com'}
 
     ]
@@ -84,13 +85,49 @@ async function createInitialUsers(){
     throw error;
   } 
 }
+async function createInitialProducts (){
+  try {
+    const productsToCreate =[
+      {quantity: 4 ,name: 'sauce',description:'saucy', price:1.00}]
+      const products = await Promise.all(productsToCreate.map(createProduct));
+
+    
+   console.log('Products created:');
+  console.log(products);
+  console.log('Finished creating products!');
+} catch (error) {
+  console.error('Error creating products!');
+  throw error;
+} 
+}
+async function createInitialUserCarts (){
+  try {
+    const userCartToCreate =[
+      {productCount:2}]
+      const userCarts = await Promise.all(userCartToCreate.map(createUserCart));
+
+    
+   console.log('User Carts created:');
+  console.log(userCarts);
+  console.log('Finished creating carts!');
+} catch (error) {
+  console.error('Error creating carts!');
+  throw error;
+} 
+}
 
 async function populateInitialData() {
-  try {
+  try {    
+    client.connect();
+    buildTables();
+    await createInitialUsers();
+    await createInitialProducts();
+    await createInitialUserCarts();
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
     // const user1 = await User.createUser({ ...user info goes here... })
   } catch (error) {
+    console.error("error during population of data")
     throw error;
   }
 }
@@ -98,7 +135,7 @@ async function populateInitialData() {
 
 
 //rebuild db
-buildTables()
+dropTables()
   .then(populateInitialData)
   //
   .catch(console.error)
