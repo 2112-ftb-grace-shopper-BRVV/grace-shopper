@@ -109,10 +109,3 @@ module.exports = {
 };
 
 
-const { client,
-  getAllUsers,
-  createUser,
-  updateUser,
-  getUserById
-  
-} = require('./db/user');
