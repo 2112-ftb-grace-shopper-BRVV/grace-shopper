@@ -9,7 +9,7 @@ const {
 
 async function dropTables() {
   console.log('Dropping All Tables...');
-  // drop all tables, in the correct order
+
   try {
     console.log('starting to drop tables')
    await client.query(`
@@ -53,7 +53,7 @@ async function buildTables() {
 
     `)
 
-    // drop tables in correct order
+//user cart commented out, waiting for usercart file
 
     // build tables in correct order
     //user cart test
@@ -64,6 +64,7 @@ async function buildTables() {
     // "productCount" INTEGER NOT NULL,
     // "paidFor" BOOLEAN DEFAULT false
     // );
+
   } catch (error) {
     console.log("error building tables")
     throw error;
@@ -95,14 +96,13 @@ async function createInitialProducts (initialUsers){
    
     console.log((initialUsers))
     const productsToCreate =[
+      //this code will be used in user cart let vinny(zef) mess with this 
+      //he has a semi-alright idea of what hes gonna do with it
+
       //use this for cart userid reference 
       //creatorId: initialUsers[0].id,
       { quantity: 4 ,name: 'sauce',description:'saucy', price:1.24}]
       const products = await Promise.all(productsToCreate.map(createProduct));
-
-      // const commentOne = await createReportComment(reportOne.id, {
-      //   content: "I saw that, too... let's meet up to discuss"
-      // });
     
    console.log('Products created:');
   console.log(products);
@@ -135,8 +135,9 @@ async function populateInitialData() {
     await buildTables();
     const users = await createInitialUsers();
     await createInitialProducts(users);
-  
+  //commented out, also waiting for user cart file to be made.
     // await createInitialUserCarts();
+
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
     // const user1 = await User.createUser({ ...user info goes here... })
@@ -149,6 +150,6 @@ async function populateInitialData() {
 
 populateInitialData();
 
-//rebuild db
+
 
 
