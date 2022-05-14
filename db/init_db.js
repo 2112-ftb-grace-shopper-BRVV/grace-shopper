@@ -1,10 +1,12 @@
-const { init } = require('express/lib/application');
+
 const {
   client,
   // declare your model imports here
   // for example, User
-  createUser, createProduct
+  createUser, createProduct,createUserCart, getAllProducts, getAllUsers
 } = require('./');
+
+
 
 
 async function dropTables() {
@@ -15,6 +17,7 @@ async function dropTables() {
    await client.query(`
     DROP TABLE IF EXISTS users cascade;
     DROP TABLE IF EXISTS products cascade;
+    DROP TABLE IF EXISTS userCart cascade;
     
     `)
     console.log("finished dropping tables!")
@@ -50,20 +53,13 @@ async function buildTables() {
       price FLOAT NOT NULL
     );
     
-
-    `)
-
-//user cart commented out, waiting for usercart file
-
-    // build tables in correct order
-    //user cart test
-    // CREATE TABLE userCart(
-    //   id SERIAL PRIMARY KEY,
-    // "userId" INTEGER REFERENCES users(id),
-    // "productId" INTEGER REFERENCES products(id),
-    // "productCount" INTEGER NOT NULL,
-    // "paidFor" BOOLEAN DEFAULT false
-    // );
+    CREATE TABLE userCart(
+      id SERIAL PRIMARY KEY,
+    "userId" INTEGER REFERENCES users(id),
+    "productId" INTEGER REFERENCES products(id),
+    "productCount" INTEGER NOT NULL,
+    "paidFor" BOOLEAN DEFAULT false
+    );`)
 
   } catch (error) {
     console.log("error building tables")
@@ -91,16 +87,12 @@ async function createInitialUsers(){
     throw error;
   } 
 }
-async function createInitialProducts (initialUsers){
+
+
+async function createInitialProducts (){
   try {
    
-    console.log((initialUsers))
     const productsToCreate =[
-      //this code will be used in user cart let vinny(zef) mess with this 
-      //he has a semi-alright idea of what hes gonna do with it
-
-      //use this for cart userid reference 
-      //creatorId: initialUsers[0].id,
       { quantity: 4 ,name: 'sauce',description:'saucy', price:1.24}]
       const products = await Promise.all(productsToCreate.map(createProduct));
     
@@ -112,10 +104,18 @@ async function createInitialProducts (initialUsers){
   throw error;
 } 
 }
-async function createInitialUserCarts (){
+async function createInitialUserCarts (initialUsers, inititalProd){
   try {
+    console.log("poop")
+    console.log(initialUsers.id)
+    console.log(inititalProd.id)
+
+
+      //use this for cart userid reference 
+      //creatorId: initialUsers[0].id,
+      
     const userCartToCreate =[
-      {productCount:2}]
+      {productCount:2, userId: initialUsers.id, productId: inititalProd.id}]
       const userCarts = await Promise.all(userCartToCreate.map(createUserCart));
 
     
@@ -133,10 +133,16 @@ async function populateInitialData() {
     client.connect();
     await dropTables()
     await buildTables();
-    const users = await createInitialUsers();
-    await createInitialProducts(users);
+    await createInitialUsers()
+    await createInitialProducts()
+    const users = await getAllUsers();
+    const products = await getAllProducts();
+    console.log(users)
+    console.log(products)
+    
+   await createInitialUserCarts( users[0], products[0]);
   //commented out, also waiting for user cart file to be made.
-    // await createInitialUserCarts();
+
 
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
@@ -149,7 +155,3 @@ async function populateInitialData() {
 }
 
 populateInitialData();
-
-
-
-
