@@ -18,17 +18,17 @@ async function getProductById(productsId) {
     }
   }
 
-  async function createProduct({ id, quantity, name, description, price }) {
+  async function createProduct({ quantity, name, description, price }) {
     try {
       const {
         rows: [products],
       } = await client.query(
         `
-          INSERT INTO routines( id, quantity, name, description, price) 
-          VALUES($1, $2, $3, $4, $5) 
+          INSERT INTO products( quantity, name, description, price) 
+          VALUES($1, $2, $3, $4) 
           RETURNING *;
         `,
-        [ id, quantity, name, description, price]
+        [quantity, name, description, price]
       );
       return products;
     } catch (error) {

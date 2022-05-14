@@ -1,3 +1,4 @@
+const { init } = require('express/lib/application');
 const {
   client,
   // declare your model imports here
@@ -8,7 +9,7 @@ const {
 
 async function dropTables() {
   console.log('Dropping All Tables...');
-  // drop all tables, in the correct order
+
   try {
     console.log('starting to drop tables')
    await client.query(`
@@ -16,6 +17,7 @@ async function dropTables() {
     DROP TABLE IF EXISTS products cascade;
     
     `)
+    console.log("finished dropping tables!")
   } catch (error) {
     console.log('error dropping tables')
     throw error;
@@ -26,7 +28,7 @@ async function dropTables() {
 //PRODUCT
 async function buildTables() {
   try {
-    client.connect();
+    // client.connect();
     console.log("starting to build tables")
     await client.query(`
     CREATE TABLE users( 
@@ -45,21 +47,24 @@ async function buildTables() {
       quantity INTEGER NOT NULL,
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL,
-      price DOUBLE NOT NULL
-    )
-    
-    CREATE TABLE userCart(
-      id SERIAL PRIMARY KEY,
-    "userId" INTEGER REFERENCES users(id),
-    "productId" INTEGER REFERENCES products(id),
-    "productCount" INTEGER NOT NULL,
-    "paidFor" BOOLEAN DEFAULT false
+      price FLOAT NOT NULL
     );
+    
+
     `)
 
-    // drop tables in correct order
+//user cart commented out, waiting for usercart file
 
     // build tables in correct order
+    //user cart test
+    // CREATE TABLE userCart(
+    //   id SERIAL PRIMARY KEY,
+    // "userId" INTEGER REFERENCES users(id),
+    // "productId" INTEGER REFERENCES products(id),
+    // "productCount" INTEGER NOT NULL,
+    // "paidFor" BOOLEAN DEFAULT false
+    // );
+
   } catch (error) {
     console.log("error building tables")
     throw error;
@@ -80,17 +85,24 @@ async function createInitialUsers(){
     console.log('Users created:');
     console.log(users);
     console.log('Finished creating users!');
+    return users;
   } catch (error) {
     console.error('Error creating users!');
     throw error;
   } 
 }
-async function createInitialProducts (){
+async function createInitialProducts (initialUsers){
   try {
+   
+    console.log((initialUsers))
     const productsToCreate =[
-      {quantity: 4 ,name: 'sauce',description:'saucy', price:1.00}]
-      const products = await Promise.all(productsToCreate.map(createProduct));
+      //this code will be used in user cart let vinny(zef) mess with this 
+      //he has a semi-alright idea of what hes gonna do with it
 
+      //use this for cart userid reference 
+      //creatorId: initialUsers[0].id,
+      { quantity: 4 ,name: 'sauce',description:'saucy', price:1.24}]
+      const products = await Promise.all(productsToCreate.map(createProduct));
     
    console.log('Products created:');
   console.log(products);
@@ -119,24 +131,25 @@ async function createInitialUserCarts (){
 async function populateInitialData() {
   try {    
     client.connect();
-    buildTables();
-    await createInitialUsers();
-    await createInitialProducts();
-    await createInitialUserCarts();
+    await dropTables()
+    await buildTables();
+    const users = await createInitialUsers();
+    await createInitialProducts(users);
+  //commented out, also waiting for user cart file to be made.
+    // await createInitialUserCarts();
+
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
     // const user1 = await User.createUser({ ...user info goes here... })
+  await  client.end()
   } catch (error) {
     console.error("error during population of data")
     throw error;
   }
 }
 
+populateInitialData();
 
 
-//rebuild db
-dropTables()
-  .then(populateInitialData)
-  //
-  .catch(console.error)
-  .finally(() => client.end());
+
+
