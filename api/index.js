@@ -7,10 +7,14 @@ apiRouter.get('/', (req, res, next) => {
 });
 
 apiRouter.get('/health', (req, res, next) => {
+  console.log("is it healthy?")
   res.send({
     healthy: true,
   });
 });
+
+apiRouter.use('/cart', require('./cart'));
+
 
 // place your routers here
 

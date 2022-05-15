@@ -72,8 +72,8 @@ async function createInitialUsers(){
   try {
 
     const usersToCreate=[
-{username:'vinny', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever.com'},
-{username:'ryan', password:'456', address:'5725 s whatever', email:'ryanmail@ryan.com'}
+{username:'vinny', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever.com', id: 1},
+{username:'ryan', password:'456', address:'5725 s whatever', email:'ryanmail@ryan.com', id: 2}
 
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
@@ -93,7 +93,7 @@ async function createInitialProducts (){
   try {
    
     const productsToCreate =[
-      { quantity: 4 ,name: 'sauce',description:'saucy', price:1.24}]
+      { quantity: 4 ,name: 'sauce',description:'saucy', price:1.24, id: 1}]
       const products = await Promise.all(productsToCreate.map(createProduct));
     
    console.log('Products created:');
@@ -106,7 +106,7 @@ async function createInitialProducts (){
 }
 async function createInitialUserCarts (initialUsers, inititalProd){
   try {
-    console.log("poop")
+    console.log("Does this even work?")
     console.log(initialUsers.id)
     console.log(inititalProd.id)
 
@@ -116,6 +116,7 @@ async function createInitialUserCarts (initialUsers, inititalProd){
       
     const userCartToCreate =[
       {productCount:2, userId: initialUsers.id, productId: inititalProd.id}]
+      console.log("Here is the cart we're trying to make:", userCartToCreate)
       const userCarts = await Promise.all(userCartToCreate.map(createUserCart));
 
     
@@ -140,7 +141,7 @@ async function populateInitialData() {
     console.log(users)
     console.log(products)
     
-   await createInitialUserCarts( users[0], products[0]);
+   await createInitialUserCarts( users[1], products[0]);
   //commented out, also waiting for user cart file to be made.
 
 
@@ -149,7 +150,7 @@ async function populateInitialData() {
     // const user1 = await User.createUser({ ...user info goes here... })
   await  client.end()
   } catch (error) {
-    console.error("error during population of data")
+    console.error("error during population of data, that sucks bro")
     throw error;
   }
 }
