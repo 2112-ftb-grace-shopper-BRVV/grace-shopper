@@ -15,6 +15,22 @@ async function createUserCart({userId, productId, productCount}) {
     }
   }
 
+  async function getUserCart(userId) {
+      
+    try {
+      const { rows: userCart } = await client.query(`
+          SELECT * 
+          FROM usercart
+          JOIN products on usercart."productId" = products.id
+          WHERE "userId"=$1
+          `,[userId]);
+      return await userCart;
+    } catch (err) {
+      console.error("Could not get the user's cart");
+      throw err;
+    }
+  }
+
   //get cart by user
 
   //add to cart - can be done with createUserCart, would want a route for this, a route to update cart, a rout to get cart
@@ -25,4 +41,4 @@ async function createUserCart({userId, productId, productCount}) {
 
   //a func to buy stuff, need route for this
 
-  module.exports = {createUserCart,};
+  module.exports = {createUserCart, getUserCart};
