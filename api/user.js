@@ -31,9 +31,7 @@ userRouter.use((req, res, next) => {
 
         console.log("password error line hit")
         return next({ name: "password too short", message: "Try again with longer password"})
-      }
-
-      // how to verify if an email is valid (potentially on the front end)
+      }      
 
       const user = await createUser({ username, password, address, email });
   
@@ -100,4 +98,15 @@ userRouter.post("/login", async (req, res, next) => {
     }
   });
 
+  userRouter.get("/", async (req, res, next) => {    
+    try {
+        
+      const allUsers = await getAllUsers();
+        
+      res.json(allUsers);
+    } catch (error) {
+      next(error);
+    }
+  });
 
+module.exports = userRouter
