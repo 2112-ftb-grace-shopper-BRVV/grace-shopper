@@ -40,6 +40,7 @@ async function buildTables() {
       password VARCHAR(255) NOT NULL,
       address VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
+      "isAdmin" BOOLEAN DEFAULT false,
       cardnumber INTEGER,
       ccv INTEGER,
       expiration INTEGER
@@ -72,8 +73,14 @@ async function createInitialUsers(){
   try {
 
     const usersToCreate=[
-{username:'vinny', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever.com', id: 1},
-{username:'ryan', password:'456', address:'5725 s whatever', email:'ryanmail@ryan.com', id: 2}
+{username:'vinny', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever.com', id: 1, isAdmin: false},
+{username:'ryan', password:'123', address:'5725 s whatever', email:'ryanmail@ryan.com', id: 2, isAdmin: false},
+{username:'vinnyAdmin', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever1.com', id: 3, isAdmin: true},
+{username:'ryanAdmin', password:'123', address:'5725 s whatever', email:'ryanmail@ryan1.com', id: 4, isAdmin: true},
+{username:'vin', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever2.com', id: 5, isAdmin: false},
+{username:'vinAdmin', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever3.com', id: 6, isAdmin: true},
+{username:'brianne', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever4.com', id: 7, isAdmin: false},
+{username:'brianneAdmin', password:"123", address:'5725 s mcvicker', email:'vinnyzef@whatever5.com', id: 8, isAdmin: true},
 
     ]
     const users = await Promise.all(usersToCreate.map(createUser));

@@ -14,7 +14,10 @@ apiRouter.get('/health', (req, res, next) => {
 });
 
 apiRouter.use('/cart', require('./cart'));
+
 apiRouter.use('/products', require('./products'))
+
+apiRouter.use('/user', require('./user'))
 
 // place your routers here
 
