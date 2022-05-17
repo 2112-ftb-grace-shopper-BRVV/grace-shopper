@@ -31,7 +31,6 @@ async function createUserCart({userId, productId, productCount}) {
     }
   }
 
-  //get cart by user
 
   //add to cart - can be done with createUserCart, would want a route for this, a route to update cart, a rout to get cart
 
