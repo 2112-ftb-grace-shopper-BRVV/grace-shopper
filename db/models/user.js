@@ -51,7 +51,7 @@ async function updateUser(id, fields = {}){
 async function getAllUsers() {
   try {
     const { rows } = await client.query(`
-        SELECT id, username, address, email
+        SELECT id, username, address, email, isAdmin
         FROM users;
     `);
 
@@ -64,7 +64,7 @@ async function getAllUsers() {
 async function getUserById(id) {
   try {
     const { rows: [ user ] } = await client.query(`
-      SELECT id, username, address, email
+      SELECT id, username, address, email, isAdmin
       FROM users
       WHERE id=$1
     `, [id]);
