@@ -36,7 +36,30 @@ const {
             next({ name, message })}
     
 });
+//problems testing this function!
+productsRouter.patch('/:id', async (req, res, next) => {
 
+    try {
 
+        const {quantity, name, description, price} = req.body
+        console.log(req.params.id)
+        const product = await updateProduct({id: req.params.productId, quantity, name, description, price })
+        res.send(product)
+    } catch ({ name, message }) {
+        next({ name, message })}
+
+});
+//problems testing this function!
+productsRouter.delete('/:id', async(req,res,next)=>{
+    try {
+        //problem is in db 
+
+      console.log(req.params)
+        const product = await deleteProduct(req.params.id);
+        console.log(product)
+        res.send(product)
+    } catch ({ name, message }) {
+        next({ name, message })}
+})
 
 module.exports = productsRouter;
