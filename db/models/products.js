@@ -1,5 +1,8 @@
 const client = require('../client');
 
+
+
+//use requierUser from utils on user specific functions
 async function getProductById(productsId) {
     try {
       const {
