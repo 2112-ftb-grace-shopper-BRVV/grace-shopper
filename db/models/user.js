@@ -97,7 +97,31 @@ async function getUserByUsername(username) {
   }
 }
 
+async function getUser({ username, password }) {
+  const user = await getUserByUsername(username);
+  const hashedPassword = user.password;
+  const passwordsMatch = await bcrypt.compare(password, hashedPassword);
 
+    try {
+      const { rows: [user]  } = await client.query(`
+        SELECT *
+        FROM users
+        WHERE username=$1
+      `, [username]);
+      if (!user) {
+        return null
+      }
+      if (passwordsMatch) {
+        delete user.password     
+      return user;
+      }
+      else {
+        return null
+      }    
+      } catch (error) {
+      throw error;
+      }
+}
 
 module.exports = {
   // add your database adapter fns here
@@ -105,7 +129,8 @@ module.exports = {
   createUser,
   updateUser,
   getUserByUsername,
-  getUserById
+  getUserById,
+  getUser
 };
 
 

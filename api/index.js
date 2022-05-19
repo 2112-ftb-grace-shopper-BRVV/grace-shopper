@@ -1,4 +1,14 @@
+const express = require('express');
+
 const apiRouter = require('express').Router();
+
+const jwt = require('jsonwebtoken');
+const { JWT_KEY } = process.env;
+const { getUserById } = require('../db/models/user');
+
+
+
+
 
 apiRouter.get('/', (req, res, next) => {
   res.send({
@@ -7,18 +17,59 @@ apiRouter.get('/', (req, res, next) => {
 });
 
 apiRouter.get('/health', (req, res, next) => {
-  console.log("is it healthy?")
   res.send({
     healthy: true,
   });
 });
 
-apiRouter.use('/cart', require('./cart'));
+// set `req.user` if possible
+apiRouter.use(async (req, res, next) => {
+  const prefix = 'Bearer ';
+  const auth = req.header('Authorization');
 
-apiRouter.use('/products', require('./products'))
+  if (!auth) { // nothing to see here
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
 
-apiRouter.use('/user', require('./user'))
+    try {
+      const { id } = jwt.verify(token, JWT_KEY);
+
+      if (id) {
+        req.user = await getUserById(id);
+        next();
+      }
+    } catch ({ name, message }) {
+      next({ name, message });
+    }
+  } else {
+    next({
+      name: 'AuthorizationHeaderError',
+      message: `Authorization token must start with ${ prefix }`
+    });
+  }
+});
+
+apiRouter.use((req, res, next) => {
+    if (req.user) {
+      console.log("User is set:", req.user);
+    }
+  
+    next();
+  });
+
+
+
+
+
 
 // place your routers here
+
+const usersRouter = require('./user');
+apiRouter.use('/user', usersRouter);
+
+//productsRouter needs to go here??
+
+
 
 module.exports = apiRouter;

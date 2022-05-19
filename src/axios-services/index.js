@@ -27,3 +27,34 @@ export async function getAPIHealth() {
     return { healthy: false };
   }
 }
+
+
+
+
+
+// export const logIn = async (username, password) => {
+//   const url = `${baseUrl}/user/login`;
+//   try{        
+//   const response = await fetch(url, {
+//       method: "POST",
+//       headers: {
+//           'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({
+          
+//               username: `${username}`,
+//               password: `${password}`
+          
+//       })
+//   });    
+//   console.log(response)
+
+//   const json = await response.json();
+//   console.log(json)
+//   localStorage.setItem("token", json.token);
+//   localStorage.setItem("username", username)
+//   return json;
+//   } catch (error){
+//       console.log("banananananan")
+//       console.error(error, "Username or Password is incorrect.")}
+// }

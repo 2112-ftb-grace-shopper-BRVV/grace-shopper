@@ -40,7 +40,7 @@ userRouter.use((req, res, next) => {
           id: user.id,
           username,
         },
-        process.env.JWT_SECRET
+        process.env.JWT_KEY
       );
   
       res.send({
@@ -84,7 +84,8 @@ userRouter.post("/login", async (req, res, next) => {
       
          } else {
         // create token & return to user
-        const token = jwt.sign({ id: user.id, username: user.username  }, process.env.JWT_SECRET);
+        console.log(process.env.JWT_KEY)
+        const token = jwt.sign({ id: user.id, username: user.username  }, process.env.JWT_KEY);
 
         console.log("TOKEN IS:", token)
 
