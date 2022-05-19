@@ -41,7 +41,7 @@ const App = () => {
         <p>API Status: {APIHealth}</p>
     <Switch>   
       
-      <Products/>
+      <Route path= "/products"><Products/></Route>
     
     
     </Switch>
