@@ -44,15 +44,12 @@ const App = () => {
 
 <Router>
     <div className="app-container">
-        <h1>Hello, Vinny World!</h1>
+        <h1>Hello, World!</h1>
         <p>API Status: {APIHealth}</p>
+    <Switch>   
       
-      
-     <Products/>
-     <Login/>
-
-     <Switch> 
-     {/* <Route path ="/login"><Login/></Route>  */}
+      <Route path= "/products"><Products/></Route>
+    
     
     </Switch>
 
