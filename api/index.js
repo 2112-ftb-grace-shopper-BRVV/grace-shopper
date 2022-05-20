@@ -67,7 +67,8 @@ apiRouter.use((req, res, next) => {
 
 const usersRouter = require('./user');
 apiRouter.use('/user', usersRouter);
-
+const productsRouter = require('./Products');
+apiRouter.use('/products', productsRouter);
 //productsRouter needs to go here??
 
 
