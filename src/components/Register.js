@@ -11,16 +11,15 @@ const Register = (props) => {
   const [cardNumber, setCardNumber] = useState("");
   const [CCV, setCCV] = useState("");
   const [expiration, setExpiration] = useState("");
-
-  const [confirmPassword,setConfirmPassword] = useState("");
- 
+  const [confirmPassword,setConfirmPassword] = useState(""); 
   const {setIsLoggedIn} = props
+
   const registerUser = async (event) => {
     event.preventDefault()
     
     try{
 
-    const response = await fetch("http://localhost:3000/register", {
+    const response = await fetch("http://localhost:4000/api/user/register", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -42,11 +41,20 @@ const Register = (props) => {
     console.log(json)
     const token = json.token
     localStorage.setItem("token", token);
-    localStorage.setItem("username", username)
-    return json;
-    } catch (error){console.error(error, "Something's wrong with registering the user!")}
-} 
+    localStorage.setItem("username", username);
+    setUsername("");
+    setPassword("");
+    setAddress("");
+    setEmail("");
+    setCardNumber("");
+    setConfirmPassword("");
+    setCCV("");
+    setExpiration("");
 
+
+    return json;
+    } catch (error){console.error(error, "Something's still wrong with registering the user!")}
+} 
    
 
     // if(password !== confirmPassword) {
@@ -87,41 +95,38 @@ const Register = (props) => {
 
 
   return (
-    console.log("sauce"),
-    <form>
+  <div >
+    <form className="regform">
       
-      <label>Username</label>
+      <label>Username:</label>
       <input value={username} onChange={handleUserName} required />
 
-      <label>Password</label>
+      <label>Password:</label>
       <input value={password} onChange={handlePassword} required />
 
-      <label>Confirm Password</label>
+      <label>Confirm Password:</label>
       <input value={confirmPassword} onChange={handleReenterPassword} required/>
 
-      <label>address</label>
+      <label>address:</label>
       <input value={address} onChange={handleAddress} required />
 
-      <label>email</label>
+      <label>email:</label>
       <input value={email} onChange={handleEmail} required />
 
-      <label>cardNumber</label>
+      <label>cardNumber:</label>
       <input value={cardNumber} onChange={handleCardNumber} required />
 
-      <label>CCV</label>
+      <label>CCV:</label>
       <input value={CCV} onChange={handleCCV} required />
 
-      <label>expiration</label>
-      <input value={expiration} onChange={handleExpiration} required />
-      
-
-      
+      <label>expiration:</label>
+      <input value={expiration} onChange={handleExpiration} required />      
 
       <button onClick={registerUser}>
         Register!
       </button>
-  </form>
-    
+    </form>
+  </div>
   );
 };
 
