@@ -54,7 +54,7 @@ productsRouter.delete('/:id', async(req,res,next)=>{
     try {
         //problem is in db 
 
-      console.log(req.params)
+      console.log(req.params.id)
         const product = await deleteProduct(req.params.id);
         console.log(product)
         res.send(product)

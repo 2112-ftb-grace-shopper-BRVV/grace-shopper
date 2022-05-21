@@ -15,7 +15,9 @@ import Login from "./logIn";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  //holds state of token to be used for login and logout check
+  const [token,setToken] = useState('')
 
   console.log("Hello!")
 
@@ -28,12 +30,8 @@ const App = () => {
       setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
     };
 
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setToken(localStorage.getItem("token"));
+
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
@@ -47,7 +45,7 @@ const App = () => {
         <h1>Hello, World!</h1>
         <p>API Status: {APIHealth}</p>
     <Switch>   
-      
+      {token? null :(<Route><Login/></Route>)}
       <Route path= "/products"><Products/></Route>
     
     
