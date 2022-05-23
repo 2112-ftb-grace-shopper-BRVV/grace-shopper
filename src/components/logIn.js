@@ -69,11 +69,12 @@ return (
                     ></input>
                     <input
                         placeholder="Password*"
-                        // value={password}
+                        
                         onChange={(event) => setPassword(event.target.value)}
                     ></input>
                     <button onClick={logInUser}>Log In</button>
                     {/* {errorMessages.length ? errorMessages.map((error) => error) : null} */}
+                    {/* <button onClick={logOut}>logOut!</button> */}
                 </>
             )}
         </div>
