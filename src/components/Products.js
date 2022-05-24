@@ -74,6 +74,38 @@ const Products = () =>{
 
     }, []);
 
+
+    const updateProduct= async(id)=>{
+
+        //wait for brianne and vinny to create user auth and add in header
+        try {
+     const result = await fetch (`http://localhost:4000/api/products/${id}`,{
+            method: "PATCH",
+            headers: {
+             "Content-Type": "application/json"},
+            body: JSON.stringify({
+                quantity: quantity,
+                name: name,
+                description: desc,
+                price: price,
+           
+            })
+
+        })
+        const product = await result.json()
+
+        } catch (error) {
+            console.error(error)
+    
+        }
+
+    }
+    useEffect(() => {
+        getProducts()
+            .catch(console.error)
+
+
+    }, []);
     return(
 
 <div>
@@ -95,6 +127,15 @@ const Products = () =>{
                 <p>Price: {prod.price}</p>
                 {/* <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id)}}>Update Product</button> */}
                 <button id = {prod.id} onClick={(event)=>{deleteProduct(event.target.id) }}>Delete Product</button>
+                <form>
+        <input placeholder="name" onChange = {(event)=> {setName(event.target.value)}}></input>
+        <input placeholder="description" onChange={(event)=> {setDescription(event.target.value)}}></input>
+        <input placeholder="price" onChange={(event)=> {setPrice(event.target.value)}}></input>
+        <input placeholder="quantity" onChange={(event)=> {setQuantity(event.target.value)}}></input>
+
+        <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id) }}>Update Product</button>
+    </form>
+ 
             </div>
         )})}
 

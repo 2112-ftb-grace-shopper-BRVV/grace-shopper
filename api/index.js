@@ -5,7 +5,7 @@ const apiRouter = require('express').Router();
 const jwt = require('jsonwebtoken');
 const { JWT_KEY } = process.env;
 const { getUserById } = require('../db/models/user');
-
+const {requireUser} = require('./utils')
 
 
 
@@ -70,7 +70,7 @@ apiRouter.use('/user', usersRouter);
 const productsRouter = require('./Products');
 apiRouter.use('/products', productsRouter);
 //productsRouter needs to go here??
-
-
+const cartRouter = require('./cart');
+apiRouter.use('/cart', requireUser, cartRouter);
 
 module.exports = apiRouter;

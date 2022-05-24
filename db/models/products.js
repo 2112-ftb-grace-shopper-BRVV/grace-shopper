@@ -42,34 +42,17 @@ async function getProductById(productsId) {
   async function updateProduct({ id, quantity, name, description, price }) {
     
     try {
-      const fields = {};
-      if (name){
-        fields.name = name
-      }
-      if (quantity){
-        fields.quantity = quantity
-      }
-      if (description){
-        fields.description = description
-      }
-      if (price){
-        fields.price = price
-      }
-      
-  
-      const setString = Object.keys(fields).map(
-        (key, index) => `"${ key }"=$${ index + 1 }`
-      ).join(', ');
-  
+
       const {
         rows: [products],
       } = await client.query(
         `
           UPDATE products
-          SET ${ setString }
-          WHERE id=${id}
-          RETURNING *
-        `, Object.values(fields))
+          SET quantity = $1, name = $2, description = $3, price = $4
+          WHERE id= ${id}
+          RETURNING *;
+        `,[quantity, name, description, price])
+        console.log(products)
         return products;
     } catch (error) {
       throw error;
@@ -93,8 +76,8 @@ async function getProductById(productsId) {
     try {
       const {rows:[product]} = await client.query(`
         DELETE FROM products
-        WHERE id=$1
-        RETURNING *
+        WHERE id = $1
+        RETURNING *;
       `, [id]);
      
       return product;

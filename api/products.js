@@ -7,6 +7,7 @@ const {
     deleteProduct,    
     getProductById
    } = require('../db/models/products')
+   const {requireUser} = require('./utils')
 
    productsRouter.get('/', async (req, res, next) => {
     
@@ -43,23 +44,23 @@ productsRouter.patch('/:id', async (req, res, next) => {
 
         const {quantity, name, description, price} = req.body
         console.log(req.params.id)
-        const product = await updateProduct({id: req.params.productId, quantity, name, description, price })
+        const product = await updateProduct({id: req.params.id, quantity, name, description, price })
         res.send(product)
-    } catch ({ name, message }) {
-        next({ name, message })}
+    } catch (error) {
+        next(error)}
 
 });
-//problems testing this function!
+
 productsRouter.delete('/:id', async(req,res,next)=>{
     try {
-        //problem is in db 
+
 
       console.log(req.params.id)
         const product = await deleteProduct(req.params.id);
         console.log(product)
         res.send(product)
-    } catch ({ name, message }) {
-        next({ name, message })}
+    } catch ( error) {
+        next( error)}
 })
 
 module.exports = productsRouter;
