@@ -9,7 +9,9 @@ const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const { isLoggedIn, setIsLoggedIn} = props
 
+    
 
     const logInUser = async (event) => {
         event.preventDefault()
@@ -34,6 +36,7 @@ console.log(username + "AND" + password)
             console.log(json)
             localStorage.setItem("token", json.token);
             localStorage.setItem("username", username)
+            setIsLoggedIn(true);
             return json;
         } catch (error) {
             console.log("banananananan")
@@ -44,17 +47,22 @@ console.log(username + "AND" + password)
 
 
 
-const logOut = () => {
+const logOut = (event) => {
+    event.preventDefault()
+
+console.log(isLoggedIn)
+
+
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    props.setIsLoggedIn(false);
+    setIsLoggedIn(false);
 };
 
-
+console.log(isLoggedIn)
 return (
     <>
         <div style={{ display: "flex", alignItems: "center" }}>
-            {props.isLoggedIn ? (
+            {isLoggedIn ? (
                 <>
                     <h3>Log Out</h3>
                     <button onClick={logOut}>Log Out</button>
