@@ -3,8 +3,10 @@ const cartRouter = express.Router()
 
 const {
  createUserCart,
-    getUserCart
-} = require('../db/models/userCart')
+    getUserCart,
+    deleteCart
+} = require('../db/models/userCart');
+const { requireUser } = require('./utils');
 
 cartRouter.get('/:userId', async (req, res, next) => {
     const  { userId } = req.params
@@ -28,11 +30,11 @@ cartRouter.get('/:userId', async (req, res, next) => {
 cartRouter.patch('/:userId', async (req, res, next) => {
 
    
-    const  { routineId } = req.params
-    const { id, isPublic, name, goal} = req.body
+    const  { userId } = req.params
+    const { id, productId, productCount} = req.body
     try { 
 
-        const updatedCart = await createUserCart({id: routineId, isPublic, name, goal})
+        const updatedCart = await createUserCart({id: userId, productId, productCount})
 
         res.send(updatedCart)
     }
@@ -42,5 +44,24 @@ cartRouter.patch('/:userId', async (req, res, next) => {
         next(error);
       }
     });
+////////////////
+    cartRouter.delete('/', async (req, res, next) => {
+    
+      const  { userId } = req.user
+      try {
+        const cart = await deleteCart({id: userId})
+    console.log("tryna delete this cart")
+        if (userId === req.userId) {
+          const updatedCart = await createUserCart(userId);
+    
+          res.send(updatedCart);
+        }
+    
+      } catch ({ name, message }) {
+        next({ name, message })
+      }
+    });
+  
 
+    //need route for deleting one item, /':productId'
     module.exports = cartRouter;
