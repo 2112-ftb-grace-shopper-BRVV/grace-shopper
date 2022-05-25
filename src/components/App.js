@@ -12,6 +12,8 @@ import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
 import Products from './Products';
 import Login from "./logIn";
+import HotSauces from './HotSauces'
+import BBQsauces from "./BBQsauces";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
@@ -42,13 +44,13 @@ const App = () => {
 
 <Router>
     <div className="app-container">
-        <h1>Hello, World!</h1>
+        <h1>SAUCE SPOT</h1>
         <p>API Status: {APIHealth}</p>
     <Switch>   
       {token? null :(<Route><Login/></Route>)}
-      <Route path= "/products"><Products/></Route>
-    
-    
+      <Route exact path= "/products"><Products/></Route>
+      <Route path= "/products/hotshop"><HotSauces/></Route>
+      <Route path= "/products/smokeshop"><BBQsauces/></Route>
     </Switch>
 
     </div>

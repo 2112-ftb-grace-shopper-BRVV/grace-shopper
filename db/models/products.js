@@ -21,17 +21,17 @@ async function getProductById(productsId) {
     }
   }
 
-  async function createProduct({ quantity, name, description, price }) {
+  async function createProduct({ quantity, name, description, price, type, flavor }) {
     try {
       const {
         rows: [products],
       } = await client.query(
         `
-          INSERT INTO products( quantity, name, description, price) 
-          VALUES($1, $2, $3, $4) 
+          INSERT INTO products( quantity, name, description, price, type, flavor) 
+          VALUES($1, $2, $3, $4, $5, $6) 
           RETURNING *;
         `,
-        [quantity, name, description, price]
+        [quantity, name, description, price, type, flavor]
       );
       return products;
     } catch (error) {
@@ -39,7 +39,7 @@ async function getProductById(productsId) {
     }
   }
 
-  async function updateProduct({ id, quantity, name, description, price }) {
+  async function updateProduct({ id, quantity, name, description, price, type, flavor }) {
     
     try {
 
@@ -48,10 +48,10 @@ async function getProductById(productsId) {
       } = await client.query(
         `
           UPDATE products
-          SET quantity = $1, name = $2, description = $3, price = $4
+          SET quantity = $1, name = $2, description = $3, price = $4, type = $5, flavor = $6
           WHERE id= ${id}
           RETURNING *;
-        `,[quantity, name, description, price])
+        `,[quantity, name, description, price,type, flavor])
         console.log(products)
         return products;
     } catch (error) {
@@ -62,7 +62,7 @@ async function getProductById(productsId) {
   async function getAllProducts() {
     try {
       const { rows } = await client.query(`
-          SELECT id, quantity, name, description, price
+          SELECT id, quantity, name, description, price, type, flavor
           FROM products;
       `);
   

@@ -9,6 +9,8 @@ const Products = () =>{
     const [desc, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [quantity, setQuantity] = useState('')
+    const [type, setType] = useState('')
+    const [flavor, setFlavor] = useState('')
 
 
     const getProducts= async()=>{
@@ -37,6 +39,8 @@ const Products = () =>{
                name: name,
                description: desc,
                price: price,
+               type: type,
+               flavor: flavor
           
            })})
            const product = await result.json()
@@ -88,6 +92,8 @@ const Products = () =>{
                 name: name,
                 description: desc,
                 price: price,
+                type: type,
+                flavor:flavor
            
             })
 
@@ -115,6 +121,8 @@ const Products = () =>{
         <input placeholder="description" onChange={(event)=> {setDescription(event.target.value)}}></input>
         <input placeholder="price" onChange={(event)=> {setPrice(event.target.value)}}></input>
         <input placeholder="quantity" onChange={(event)=> {setQuantity(event.target.value)}}></input>
+        <input placeholder="type" onChange={(event)=> {setType(event.target.value)}}></input>
+        <input placeholder="flavor" onChange={(event)=> {setFlavor(event.target.value)}}></input>
 
         <button onClick={(event)=> addProduct(event)}>Create new product</button>
     </form>
@@ -125,6 +133,8 @@ const Products = () =>{
                 <p>Name: {prod.name}</p>
                 <p>Description: {prod.description}</p>
                 <p>Price: {prod.price}</p>
+                <p>Type: {prod.type}</p>
+                <p>Flavor: {prod.flavor}</p>
                 {/* <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id)}}>Update Product</button> */}
                 <button id = {prod.id} onClick={(event)=>{deleteProduct(event.target.id) }}>Delete Product</button>
                 <form>
@@ -133,6 +143,24 @@ const Products = () =>{
         <input placeholder="price" onChange={(event)=> {setPrice(event.target.value)}}></input>
         <input placeholder="quantity" onChange={(event)=> {setQuantity(event.target.value)}}></input>
 
+        <select onChange={(event)=> {setType(event.target.value)}}>
+        <option defaultValue >Please choose type...</option>
+        <option value="BBQ">BBQ</option>
+        <option value="Hot">HOT</option>
+        </select>  
+
+        <select onChange={(event)=> {setFlavor(event.target.value)}}>
+        <option defaultValue  >Please choose type...</option>
+        <option value="Sweet">(Hot Sauce)Sweet</option>
+        <option value="Mild">(Hot Sauce)Mild</option>
+        <option value="Hot">(Hot Sauce)Hot</option>
+        <option value="Blazing">(Hot Sauce)Blazing</option>
+        <option value="Sweet">(BBQ Sauce)Sweet</option>
+        <option value="Smoky">(BBQ Sauce)Smoky</option>
+        <option value="Tangy">(BBQ Sauce)Tangy</option>
+        <option value="Spicy">(BBQ Sauce)Spicy</option>
+        <option value="Hot">(BBQ Sauce)Hot</option>
+        </select>  
         <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id) }}>Update Product</button>
     </form>
  
