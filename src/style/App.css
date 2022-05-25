@@ -8,6 +8,6 @@
 }
 
 .app-container h1 {
-  color: var(--green);
+  color: var(--red);
   padding: 1rem;
 }
