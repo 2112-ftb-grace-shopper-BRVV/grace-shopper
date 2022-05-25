@@ -12,17 +12,22 @@ import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
 import Products from './Products';
 import Login from "./logIn";
+
 import HotSauces from './HotSauces'
 import BBQsauces from "./BBQsauces";
+
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
 
   //holds state of token to be used for login and logout check
-  const [token,setToken] = useState('')
+  const [token, setToken] = useState('')
 
   console.log("Hello!")
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  
   useEffect(() => {
     // follow this pattern inside your useEffect calls:
     // first, create an async function that will wrap your axios service adapter
@@ -32,8 +37,13 @@ const App = () => {
       setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
     };
 
-    setToken(localStorage.getItem("token"));
+    const token =localStorage.getItem("token");
 
+    if (token.length) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
@@ -46,11 +56,14 @@ const App = () => {
     <div className="app-container">
         <h1>SAUCE SPOT</h1>
         <p>API Status: {APIHealth}</p>
+        <Route><Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
     <Switch>   
+
       {token? null :(<Route><Login/></Route>)}
       <Route exact path= "/products"><Products/></Route>
       <Route path= "/products/hotshop"><HotSauces/></Route>
       <Route path= "/products/smokeshop"><BBQsauces/></Route>
+
     </Switch>
 
     </div>
