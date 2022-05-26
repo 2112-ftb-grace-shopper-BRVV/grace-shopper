@@ -31,7 +31,7 @@ const {
 
             const {quantity, name, description, price} = req.body
             
-            const product = await createProduct({ quantity, name, description, price, type, flavor })
+            const product = await createProduct({ quantity, name, description, price, type, flavor, img })
             res.send(product)
         } catch ({ name, message }) {
             next({ name, message })}
@@ -43,7 +43,7 @@ productsRouter.patch('/:id', async (req, res, next) => {
     try {
         const {quantity, name, description, price, type, flavor} = req.body
         console.log(req.params.id)
-        const product = await updateProduct({id: req.params.id, quantity, name, description, price, type, flavor })
+        const product = await updateProduct({id: req.params.id, quantity, name, description, price, type, flavor,img })
         res.send(product)
     } catch (error) {
         next(error)}

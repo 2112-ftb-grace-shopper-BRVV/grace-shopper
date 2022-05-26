@@ -11,7 +11,7 @@ const Products = () =>{
     const [quantity, setQuantity] = useState('')
     const [type, setType] = useState('')
     const [flavor, setFlavor] = useState('')
-
+    const [img, setImg] = useState('')
 
     const getProducts= async()=>{
         try {
@@ -40,7 +40,8 @@ const Products = () =>{
                description: desc,
                price: price,
                type: type,
-               flavor: flavor
+               flavor: flavor,
+               img: img
           
            })})
            const product = await result.json()
@@ -93,7 +94,8 @@ const Products = () =>{
                 description: desc,
                 price: price,
                 type: type,
-                flavor:flavor
+                flavor:flavor,
+                img:img
            
             })
 
@@ -123,13 +125,14 @@ const Products = () =>{
         <input placeholder="quantity" onChange={(event)=> {setQuantity(event.target.value)}}></input>
         <input placeholder="type" onChange={(event)=> {setType(event.target.value)}}></input>
         <input placeholder="flavor" onChange={(event)=> {setFlavor(event.target.value)}}></input>
-
+        <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button onClick={(event)=> addProduct(event)}>Create new product</button>
     </form>
 
     {products.map((prod)=>{
         return(
             <div key={prod.id}>
+              <img style={{height: "100px", width: "100px"}} src={prod.img} alt={prod.name}/>
                 <p>Name: {prod.name}</p>
                 <p>Description: {prod.description}</p>
                 <p>Price: {prod.price}</p>
@@ -161,6 +164,7 @@ const Products = () =>{
         <option value="Spicy">(BBQ Sauce)Spicy</option>
         <option value="Hot">(BBQ Sauce)Hot</option>
         </select>  
+        <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id) }}>Update Product</button>
     </form>
  
