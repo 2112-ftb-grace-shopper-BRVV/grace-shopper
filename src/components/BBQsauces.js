@@ -28,10 +28,12 @@ return(
 {products.map((prod)=>{
         return(
             <div key={prod.id} style={{display:"flex", flexDirection: "row", justifyContent: "space-around"}}>
+              <img style={{height: "100px", width: "100px"}} src={prod.img} alt={prod.name}/>
                 <p>Name: {prod.name}</p>
                 <p>Description: {prod.description}</p>
                 <p>Price: {prod.price}</p>
                 <p>Flavor: {prod.flavor}</p>
+
             </div>
         )})}</div>
 
