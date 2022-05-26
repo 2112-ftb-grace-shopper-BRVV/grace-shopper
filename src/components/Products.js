@@ -12,7 +12,23 @@ const Products = () =>{
     const [type, setType] = useState('')
     const [flavor, setFlavor] = useState('')
     const [img, setImg] = useState('')
+    const [cart, setCart] = useState([])
 
+    const getUserCart= async()=>{
+    try {
+        //change 2 to the current users id
+        const result = await fetch(`http://localhost:4000/api/cart/2`)
+        const json = await result.json()
+        console.log(json)
+        setCart(json)
+    } 
+    catch (error) {
+        throw(error)
+    
+        }
+
+
+    }
     const getProducts= async()=>{
         try {
             const result = await fetch ('http://localhost:4000/api/products');
@@ -111,12 +127,27 @@ const Products = () =>{
     useEffect(() => {
         getProducts()
             .catch(console.error)
-
+        getUserCart()
+        .catch(console.error)
 
     }, []);
     return(
 
 <div>
+
+    <div style={{border: "solid 2px black"}}>
+        <h2>Your Cart</h2>
+        {cart.map((c=>{return(<div>
+            <img style={{height: "100px", width: "100px"}} src={c.img} alt={c.name}/>
+           <p>{c.name}</p> 
+           <p>Price:{c.price}</p> 
+           <p>Quantity:{c.productCount}</p> 
+            <button>Check out</button>
+        </div>)
+        })
+        
+        )}
+    </div>
     <form>
         Add new product:
         <input placeholder="name" onChange = {(event)=> {setName(event.target.value)}}></input>

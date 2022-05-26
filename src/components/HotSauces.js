@@ -1,12 +1,11 @@
 
 
-import { handle, set } from "express/lib/application";
 import React, { useEffect, useState } from "react"
 import { useRanger } from "react-ranger";
 
 const HotSauces = ()=>{
     const [products, setProducts] = useState([])
-    const [values, setValues] = useState([30]);
+    const [values, setValues] = useState([0]);
 
     const getProducts= async()=>{
         try {
