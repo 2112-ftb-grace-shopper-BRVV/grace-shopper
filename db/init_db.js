@@ -18,7 +18,8 @@ async function dropTables() {
     DROP TABLE IF EXISTS users cascade;
     DROP TABLE IF EXISTS products cascade;
     DROP TABLE IF EXISTS userCart cascade;
-    
+    DROP TABLE IF EXISTS cartitem cascade;
+  
     `)
     console.log("finished dropping tables!")
   } catch (error) {
@@ -62,7 +63,15 @@ async function buildTables() {
     "productId" INTEGER REFERENCES products(id),
     "productCount" INTEGER NOT NULL,
     "paidFor" BOOLEAN DEFAULT false
+    );
+    
+    CREATE TABLE cartitem(
+      id SERIAL PRIMARY KEY,
+      "cartId" INTEGER REFERENCES userCart(id),
+      "productId" INTEGER REFERENCES products(id),
+      quantity INTEGER NOT NULL
     );`)
+
 
   } catch (error) {
     console.log("error building tables")
