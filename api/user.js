@@ -121,4 +121,15 @@ userRouter.post("/login", async (req, res, next) => {
     }    
   });
 
+  userRouter.get("/profile", async (req, res, next) => {
+    const { username } = req.user
+    try {
+      const userInfo = await getUserByUsername(username);
+      delete userInfo.password
+      res.json(userInfo)
+    } catch (error) {
+      next(error);
+    }    
+  });
+
 module.exports = userRouter

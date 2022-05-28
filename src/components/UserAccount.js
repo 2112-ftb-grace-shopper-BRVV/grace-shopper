@@ -1,3 +1,4 @@
+import { user } from "pg/lib/defaults";
 import React, { useEffect, useState } from "react"
 
 const UserAccount = () => {
@@ -22,16 +23,19 @@ const [userInfo, setUserInfo] = useState({})
     } catch (error) {        
         console.error(error, "Something went wrong")
     }
-
-
     }, []);
 
 
 
     return (
         <div>
-            <h1>hello world</h1>
-            {userInfo.address}
+            <h1>Welcome to your profile page, {userInfo.username}!</h1>
+            <div>
+               <p>Address: {userInfo.address}</p> <button>Update Address</button>
+                <p>Email: {userInfo.email}</p> <button>Update Email</button>
+                
+            </div>
+            
         </div>
 
     )
