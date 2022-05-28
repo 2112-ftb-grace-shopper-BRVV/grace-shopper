@@ -12,9 +12,10 @@ import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
 import Products from './Products';
 import Login from "./logIn";
-
+import UserAccount from "./UserAccount";
 import HotSauces from './HotSauces'
 import BBQsauces from "./BBQsauces";
+import Register from "./Register";
 
 
 const App = () => {
@@ -26,7 +27,7 @@ const App = () => {
   console.log("Hello!")
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+  const [username, setUsername] = useState("")
   
   useEffect(() => {
     // follow this pattern inside your useEffect calls:
@@ -38,11 +39,17 @@ const App = () => {
     };
 
     const token =localStorage.getItem("token");
+    const storedUsername =localStorage.getItem("username");
 
-    if (token.length) {
+    if (token) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
+    }
+    if (storedUsername) {
+      setUsername(storedUsername)
+    } else {
+      setUsername("")
     }
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
@@ -55,15 +62,16 @@ const App = () => {
 <Router>
     <div className="app-container">
         <h1>SAUCE SPOT</h1>
+        <h2>Welcome, {username}</h2>
         <p>API Status: {APIHealth}</p>
         <Route><Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
-    <Switch>   
-
-      {token? null :(<Route><Login/></Route>)}
+    <Switch> 
+      <Route path= "/profile"><UserAccount username={username} /></Route>
       <Route exact path= "/products"><Products/></Route>
       <Route path= "/products/hotshop"><HotSauces/></Route>
       <Route path= "/products/smokeshop"><BBQsauces/></Route>
-
+      <Route path= "/register"><Register/></Route>
+      
     </Switch>
 
     </div>
