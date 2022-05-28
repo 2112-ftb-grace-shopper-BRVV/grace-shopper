@@ -2,6 +2,7 @@ const client = require('../client');
 const { getProductById } = require('./products');
 
 async function createUserCart({userId, productId, productCount}) {
+  console.log("BBQ best sauce")
     console.log("trying to create user cart with this stuff", userId, productId, productCount)
     try {
         const { rows: [userCart] } = await client.query(`
@@ -35,16 +36,30 @@ async function createUserCart({userId, productId, productCount}) {
     }
   }
 
-  async function deleteCart(userId) {
+   async function getUserCartById(userCartId) {
+      
     try {
-      const {
-        rows: [userCart],
-      } = await client.query(`
-      DELETE FROM userCart("userId", "productId", "productCount") 
-      WHERE "userId"=${userId} AND "paidFor"=false  
-      RETURNING *;
-      `);
-      return userCart;
+      const { rows: userCart } = await client.query(`
+          SELECT * 
+          FROM usercart
+          JOIN products on usercart."productId" = products.id
+          WHERE usercart.id=$1 AND "paidFor"=false
+          `,[userCartId]);
+      return await userCart;
+    } catch (err) {
+      console.error("Could not get the user's cart");
+      throw err;
+    }
+  }
+
+  async function deleteCart(userCartId) {
+    console.log(userCartId)
+    try {
+      await client.query(`
+      DELETE FROM usercart
+      WHERE usercart.id=$1;   
+      `,[userCartId]);
+    
     } catch (err) {
       console.error("Can't delete cart, bro I dunno what's wrong");
       throw err;
@@ -80,4 +95,4 @@ async function createUserCart({userId, productId, productCount}) {
 
   //a func to buy stuff, need route for this
 
-  module.exports = {createUserCart, getUserCart, deleteCart};
+  module.exports = {createUserCart, getUserCart, deleteCart, getUserCartById};

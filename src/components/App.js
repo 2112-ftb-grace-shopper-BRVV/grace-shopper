@@ -39,7 +39,7 @@ const App = () => {
 
     const token =localStorage.getItem("token");
 
-    if (token.length) {
+    if (token && token.length) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -59,7 +59,7 @@ const App = () => {
         <Route><Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
     <Switch>   
 
-      {token? null :(<Route><Login/></Route>)}
+      {/* {token? null :(<Route><Login/></Route>)} */}
       <Route exact path= "/products"><Products/></Route>
       <Route path= "/products/hotshop"><HotSauces/></Route>
       <Route path= "/products/smokeshop"><BBQsauces/></Route>
