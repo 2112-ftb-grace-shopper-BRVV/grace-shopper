@@ -1,12 +1,11 @@
 
 
-import { handle, set } from "express/lib/application";
 import React, { useEffect, useState } from "react"
 import { useRanger } from "react-ranger";
 
 const HotSauces = ()=>{
     const [products, setProducts] = useState([])
-    const [values, setValues] = useState([30]);
+    const [values, setValues] = useState([0]);
 
     const getProducts= async()=>{
         try {
@@ -47,7 +46,7 @@ const HotSauces = ()=>{
             .catch(console.error)
 
 
-    }, []);
+    }, [products]);
 return(
 
 <div>
@@ -103,6 +102,7 @@ return(
 {products.map((prod)=>{
         return(
             <div key={prod.id} style={{display:"flex", flexDirection: "row", justifyContent: "space-around"}}>
+              <img style={{height: "100px", width: "100px"}} src={prod.img} alt={prod.name}/>
                 <p>Name: {prod.name}</p>
                 <p>Description: {prod.description}</p>
                 <p>Price: {prod.price}</p>

@@ -11,8 +11,23 @@ const Products = () =>{
     const [quantity, setQuantity] = useState('')
     const [type, setType] = useState('')
     const [flavor, setFlavor] = useState('')
+    const [img, setImg] = useState('')
+    const [cart, setCart] = useState([])
 
+    const getUserCart= async()=>{
+    try {
+        //change 2 to the current users id
+        const result = await fetch(`http://localhost:4000/api/cart/2`)
+        const json = await result.json()
+        console.log(json)
+        setCart(json)
+    } 
+    catch (error) {
+        throw(error)
     
+        }
+
+
     const getProducts= async()=>{
         try {
             const result = await fetch ('http://localhost:4000/api/products');
@@ -40,7 +55,8 @@ const Products = () =>{
                description: desc,
                price: price,
                type: type,
-               flavor: flavor
+               flavor: flavor,
+               img: img
           
            })})
            const product = await result.json()
@@ -93,7 +109,8 @@ const Products = () =>{
                 description: desc,
                 price: price,
                 type: type,
-                flavor:flavor
+                flavor:flavor,
+                img:img
            
             })
 
@@ -109,12 +126,27 @@ const Products = () =>{
     useEffect(() => {
         getProducts()
             .catch(console.error)
-
+        getUserCart()
+        .catch(console.error)
 
     }, []);
     return(
 
 <div>
+
+    <div style={{border: "solid 2px black"}}>
+        <h2>Your Cart</h2>
+        {cart.map((c=>{return(<div>
+            <img style={{height: "100px", width: "100px"}} src={c.img} alt={c.name}/>
+           <p>{c.name}</p> 
+           <p>Price:{c.price}</p> 
+           <p>Quantity:{c.productCount}</p> 
+            <button>Check out</button>
+        </div>)
+        })
+        
+        )}
+    </div>
     <form>
         Add new product:
         <input placeholder="name" onChange = {(event)=> {setName(event.target.value)}}></input>
@@ -123,13 +155,14 @@ const Products = () =>{
         <input placeholder="quantity" onChange={(event)=> {setQuantity(event.target.value)}}></input>
         <input placeholder="type" onChange={(event)=> {setType(event.target.value)}}></input>
         <input placeholder="flavor" onChange={(event)=> {setFlavor(event.target.value)}}></input>
-
+        <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button onClick={(event)=> addProduct(event)}>Create new product</button>
     </form>
 
     {products.map((prod)=>{
         return(
             <div key={prod.id}>
+              <img style={{height: "100px", width: "100px"}} src={prod.img} alt={prod.name}/>
                 <p>Name: {prod.name}</p>
                 <p>Description: {prod.description}</p>
                 <p>Price: {prod.price}</p>
@@ -161,6 +194,7 @@ const Products = () =>{
         <option value="Spicy">(BBQ Sauce)Spicy</option>
         <option value="Hot">(BBQ Sauce)Hot</option>
         </select>  
+        <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id) }}>Update Product</button>
     </form>
  

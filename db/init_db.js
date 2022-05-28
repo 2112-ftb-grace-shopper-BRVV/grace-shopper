@@ -18,7 +18,8 @@ async function dropTables() {
     DROP TABLE IF EXISTS users cascade;
     DROP TABLE IF EXISTS products cascade;
     DROP TABLE IF EXISTS userCart cascade;
-    
+    DROP TABLE IF EXISTS cartitem cascade;
+  
     `)
     console.log("finished dropping tables!")
   } catch (error) {
@@ -52,6 +53,7 @@ async function buildTables() {
       name VARCHAR(255) UNIQUE NOT NULL,
       type VARCHAR(255) NOT NULL,
       flavor VARCHAR(255) NOT NULL,
+      img VARCHAR(255),
       description TEXT NOT NULL,
       price FLOAT NOT NULL
     );
@@ -62,7 +64,15 @@ async function buildTables() {
     "productId" INTEGER REFERENCES products(id),
     "productCount" INTEGER NOT NULL,
     "paidFor" BOOLEAN DEFAULT false
+    );
+    
+    CREATE TABLE cartitem(
+      id SERIAL PRIMARY KEY,
+      "cartId" INTEGER REFERENCES userCart(id),
+      "productId" INTEGER REFERENCES products(id),
+      quantity INTEGER NOT NULL
     );`)
+
 
   } catch (error) {
     console.log("error building tables")
@@ -102,15 +112,15 @@ async function createInitialProducts (){
   try {
    
     const productsToCreate =[
-      { quantity: 4 ,name: `Frank's Red Hot`,description:'Frank comes in with the classic hot sauce flavor and kick', price:1.24, type: "Hot", flavor:"Mild", id: 1},
-      { quantity: 4 ,name: 'Chili',description:'A smooth and flavorful but not too much heat', price:1.24, type: "Hot", flavor:"Sweet", id: 1},
-      { quantity: 4 ,name: 'Cajun',description:'A sauce with more boot than an NFL kicker, strap in for flavor and heat you have not seen before', price:1.24, type: "Hot", flavor:"Hot", id: 1},
-      { quantity: 4 ,name: 'Ghost Pepper',description:'Strap in and prepare for out of this world heat you cant escape', price:1.24, type: "Hot", flavor:"Blazing", id: 1},
-      { quantity: 4 ,name: `Sweet Baby Ray's`,description:'saucy', price:1.24, type: "BBQ", flavor:"Sweet", id: 1},
-      { quantity: 4 ,name: `Stubb's Tangy`,description:'saucy', price:1.24, type: "BBQ", flavor:"Tangy", id: 1},
-      { quantity: 4 ,name: 'G Hughes Hickory',description:'saucy', price:1.24, type: "BBQ", flavor:"Smoky", id: 1},
-      { quantity: 4 ,name: 'Heinz Carolina Vinegar',description:'saucy', price:1.24, type: "BBQ", flavor:"Spicy", id: 1},
-      { quantity: 4 ,name: `Famous Dave's Devil Spit`,description:'saucy', price:1.24, type: "BBQ", flavor:"Hot", id: 1}]
+      { quantity: 4 ,name: `Frank's Red Hot`,description:'Frank comes in with the classic hot sauce flavor and kick', price:1.24, type: "Hot", flavor:"Mild",img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1},
+      { quantity: 4 ,name: 'Chili',description:'A smooth and flavorful but not too much heat', price:1.24, type: "Hot", flavor:"Sweet", img: "https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1},
+      { quantity: 4 ,name: 'Cajun',description:'A sauce with more boot than an NFL kicker, strap in for flavor and heat you have not seen before', price:1.24, type: "Hot", flavor:"Hot",img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1},
+      { quantity: 4 ,name: 'Ghost Pepper',description:'Strap in and prepare for out of this world heat you cant escape', price:1.24, type: "Hot", flavor:"Blazing", img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0",id: 1},
+      { quantity: 4 ,name: `Sweet Baby Ray's`,description:'saucy', price:1.24, type: "BBQ", flavor:"Sweet",img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1},
+      { quantity: 4 ,name: `Stubb's Tangy`,description:'saucy', price:1.24, type: "BBQ", flavor:"Tangy",img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1},
+      { quantity: 4 ,name: 'G Hughes Hickory',description:'saucy', price:1.24, type: "BBQ", flavor:"Smoky",img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0",id: 1},
+      { quantity: 4 ,name: 'Heinz Carolina Vinegar',description:'saucy', price:1.24, type: "BBQ", flavor:"Spicy",img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1},
+      { quantity: 4 ,name: `Famous Dave's Devil Spit`,description:'saucy', price:1.24, type: "BBQ", flavor:"Hot", img:"https://images.heb.com/is/image/HEBGrocery/001579673?fit=constrain,1&wid=800&hei=800&fmt=jpg&qlt=85,0&resMode=sharp2&op_usm=1.75,0.3,2,0", id: 1}]
       const products = await Promise.all(productsToCreate.map(createProduct));
     
    console.log('Products created:');

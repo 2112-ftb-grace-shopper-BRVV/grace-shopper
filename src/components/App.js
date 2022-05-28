@@ -65,8 +65,10 @@ const App = () => {
         <h2>Welcome, {username}</h2>
         <p>API Status: {APIHealth}</p>
         <Route><Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
+
     <Switch> 
       <Route path= "/profile"><UserAccount username={username} /></Route>
+
       <Route exact path= "/products"><Products/></Route>
       <Route path= "/products/hotshop"><HotSauces/></Route>
       <Route path= "/products/smokeshop"><BBQsauces/></Route>
