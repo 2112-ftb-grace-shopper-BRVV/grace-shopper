@@ -26,7 +26,7 @@ async function createUserCart({userId, productId, productCount}) {
       const { rows: userCart } = await client.query(`
           SELECT * 
           FROM usercart
-          JOIN products on usercart."productId" = products.id
+          JOIN cartitem on usercart.id = cartitem."cartId"
           WHERE "userId"=$1 AND "paidFor"=false
           `,[userId]);
       return await userCart;

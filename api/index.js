@@ -72,5 +72,7 @@ apiRouter.use('/products', productsRouter);
 //productsRouter needs to go here??
 const cartRouter = require('./cart');
 apiRouter.use('/cart', cartRouter);
+const cartItemRouter = require('./cartItem');
+apiRouter.use('/cartItem', cartItemRouter);
 
 module.exports = apiRouter;

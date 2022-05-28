@@ -24,6 +24,21 @@ const {
           }
         });
 
+        productsRouter.get('/:prodId', async (req, res, next) => {
+    
+            console.log("This is the route for the products")
+            const {prodId} = req.params;
+            try {
+                const product = await getProductById(prodId)
+        
+                res.send(product)}
+        
+                catch(error) {
+                    console.log(error);
+                    
+                  }
+                });
+
 
  productsRouter.post('/', async (req, res, next) => {
 

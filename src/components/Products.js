@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react"
 
 
 
+
+
 const Products = () =>{
     const [products, setProducts] = useState([])
     const [name, setName] = useState('')
@@ -124,6 +126,29 @@ const Products = () =>{
         }
 
     }
+    const addToCart = async(prodId) =>{
+
+
+        try {
+
+            await fetch(`http://localhost:4000/api/cartItem`,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"},
+               body: JSON.stringify({
+                cartId: 1,
+                productId: prodId,
+                quantity: 2
+
+            })})
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+
+
+    }
+
     useEffect(() => {
         getProducts()
             .catch(console.error)
@@ -141,6 +166,7 @@ const Products = () =>{
             <img style={{height: "100px", width: "100px"}} src={c.img} alt={c.name}/>
            <p>{c.name}</p> 
            <p>Price:{c.price}</p> 
+           <p>ID: {c.productId}</p>
            <p>Quantity:{c.productCount}</p> 
             <button>Check out</button>
         </div>)
@@ -197,6 +223,7 @@ const Products = () =>{
         </select>  
         <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id) }}>Update Product</button>
+        <button id = {prod.id} onClick={(event)=>{addToCart(event.target.id) }}>Add to Cart</button>
     </form>
  
             </div>
