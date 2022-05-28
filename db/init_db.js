@@ -5,6 +5,7 @@ const {
   // for example, User
   createUser, createProduct,createUserCart, getAllProducts, getAllUsers
 } = require('./');
+const { createCartItem } = require('./models/cartItem');
 
 
 
@@ -69,7 +70,7 @@ async function buildTables() {
     CREATE TABLE cartitem(
       id SERIAL PRIMARY KEY,
       "cartId" INTEGER REFERENCES userCart(id),
-      "productId" INTEGER REFERENCES products(id),
+      "productId" INTEGER UNIQUE REFERENCES products(id),
       quantity INTEGER NOT NULL
     );`)
 
@@ -107,6 +108,21 @@ async function createInitialUsers(){
   } 
 }
 
+async function createInitialCartItem(){
+try {
+  const item = {cartId: 1, productId: 8, quantity: 2}
+  const items = await createCartItem(item)
+  
+
+  
+  console.log('Cart Items created:');
+  console.log(items);
+  console.log('Finished creating cart items!');
+} catch (error) {
+  console.error('Error creating cart items!');
+  throw error;
+} 
+}
 
 async function createInitialProducts (){
   try {
@@ -169,6 +185,7 @@ async function populateInitialData() {
     console.log(products)
     
    await createInitialUserCarts( users[1], products[0]);
+   await createInitialCartItem();
   //commented out, also waiting for user cart file to be made.
 
 
