@@ -66,23 +66,6 @@ async function createUserCart({userId, productId, productCount}) {
     }
   }
 
-
-  //delete just one item
-  async function deleteProductFromCart(userId,productId) {
-    try {
-      const {
-        rows: [userCart],
-      } = await client.query(`
-      DELETE FROM userCart("userId", "productId", "productCount") 
-      WHERE "userId"=${userId} AND "paidFor"=false AND "productId"=${productId}
-      RETURNING *;
-      `);
-      return userCart;
-    } catch (err) {
-      console.error("Can't delete cart, bro I dunno what's wrong");
-      throw err;
-    }
-  }
   
   //add a function to adjust quantity
   
