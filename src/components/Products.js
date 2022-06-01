@@ -78,7 +78,7 @@ const Products = () =>{
         try {
       await fetch (`http://localhost:4000/api/products/${id}`,{
            method: "DELETE",
-           headers: {
+           headers: { 
             "Content-Type": "application/json",
 
          }
