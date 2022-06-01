@@ -7,6 +7,7 @@ import WebFont from 'webfontloader';
 
 
 
+
 const Products = () =>{
     const [products, setProducts] = useState([])
     const [name, setName] = useState('')
@@ -32,6 +33,7 @@ const Products = () =>{
         }
 
 
+    }
     const getProducts= async()=>{
         try {
             const result = await fetch ('http://localhost:4000/api/products');

@@ -44,7 +44,7 @@ async function updateUser(id, fields = {}){
 
       return user;
   } catch (error){
-      throw error;
+      console.log(error);
   }
 }
 

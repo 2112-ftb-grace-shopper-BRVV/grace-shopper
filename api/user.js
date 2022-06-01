@@ -121,15 +121,17 @@ userRouter.post("/login", async (req, res, next) => {
     }    
   });
 
-  userRouter.get("/profile", async (req, res, next) => {
-    const { username } = req.user
+  userRouter.patch('/:id', async (req, res, next) => {
+
     try {
-      const userInfo = await getUserByUsername(username);
-      delete userInfo.password
-      res.json(userInfo)
+        const {username, email, address, isAdmin} = req.body
+        console.log(req.params.id)
+    
+        const userInfo = await updateUser( req.params.id, {username, email, address, isAdmin })
+        res.send(userInfo)
     } catch (error) {
-      next(error);
-    }    
-  });
+        next(error)}
+
+});
 
 module.exports = userRouter
