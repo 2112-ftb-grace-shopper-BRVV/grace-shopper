@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from "react"
 
 
+import WebFont from 'webfontloader';
+
+
 
 
 
@@ -126,28 +129,7 @@ const Products = () =>{
         }
 
     }
-    const addToCart = async(prodId) =>{
 
-
-        try {
-
-            await fetch(`http://localhost:4000/api/cartItem`,{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"},
-               body: JSON.stringify({
-                cartId: 1,
-                productId: prodId,
-                quantity: 2
-
-            })})
-        } catch (error) {
-            console.log(error)
-            throw error
-        }
-
-
-    }
 
     useEffect(() => {
         getProducts()
@@ -160,28 +142,25 @@ const Products = () =>{
 
 <div>
 
-    <div style={{border: "solid 2px black"}}>
-        <h2>Your Cart</h2>
-        {cart.map((c=>{return(<div>
-            <img style={{height: "100px", width: "100px"}} src={c.img} alt={c.name}/>
-           <p>{c.name}</p> 
-           <p>Price:{c.price}</p> 
-           <p>ID: {c.productId}</p>
-           <p>Quantity:{c.productCount}</p> 
-            <button>Check out</button>
-        </div>)
-        })
-        
-        )}
-    </div>
     <form>
         Add new product:
         <input placeholder="name" onChange = {(event)=> {setName(event.target.value)}}></input>
         <input placeholder="description" onChange={(event)=> {setDescription(event.target.value)}}></input>
         <input placeholder="price" onChange={(event)=> {setPrice(event.target.value)}}></input>
         <input placeholder="quantity" onChange={(event)=> {setQuantity(event.target.value)}}></input>
-        <input placeholder="type" onChange={(event)=> {setType(event.target.value)}}></input>
-        <input placeholder="flavor" onChange={(event)=> {setFlavor(event.target.value)}}></input>
+
+        <select onChange={(event)=> {setType(event.target.value)}}>
+        <option defaultValue >Please choose type...</option>
+        <option value="Hot">HOT</option>
+        </select>  
+
+        <select onChange={(event)=> {setFlavor(event.target.value)}}>
+        <option defaultValue  >Please choose flavor...</option>
+        <option value="Mild">(Hot Sauce)Mild</option>
+        <option value="Medium">(Hot Sauce)Medium</option>
+        <option value="Hot">(Hot Sauce)Hot</option>
+        <option value="Blazing">(Hot Sauce)Blazing</option>
+        </select>  
         <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button onClick={(event)=> addProduct(event)}>Create new product</button>
     </form>
@@ -205,25 +184,20 @@ const Products = () =>{
 
         <select onChange={(event)=> {setType(event.target.value)}}>
         <option defaultValue >Please choose type...</option>
-        <option value="BBQ">BBQ</option>
         <option value="Hot">HOT</option>
         </select>  
 
         <select onChange={(event)=> {setFlavor(event.target.value)}}>
-        <option defaultValue  >Please choose type...</option>
-        <option value="Sweet">(Hot Sauce)Sweet</option>
+        <option defaultValue  >Please choose flavor...</option>
         <option value="Mild">(Hot Sauce)Mild</option>
+        <option value="Medium">(Hot Sauce)Medium</option>
         <option value="Hot">(Hot Sauce)Hot</option>
         <option value="Blazing">(Hot Sauce)Blazing</option>
-        <option value="Sweet">(BBQ Sauce)Sweet</option>
-        <option value="Smoky">(BBQ Sauce)Smoky</option>
-        <option value="Tangy">(BBQ Sauce)Tangy</option>
-        <option value="Spicy">(BBQ Sauce)Spicy</option>
-        <option value="Hot">(BBQ Sauce)Hot</option>
         </select>  
         <input placeholder="img" onChange={(event)=> {setImg(event.target.value)}}></input>
         <button id = {prod.id} onClick={(event)=>{updateProduct(event.target.id) }}>Update Product</button>
-        <button id = {prod.id} onClick={(event)=>{addToCart(event.target.id) }}>Add to Cart</button>
+
+  
     </form>
  
             </div>

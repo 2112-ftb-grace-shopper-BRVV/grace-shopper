@@ -87,7 +87,7 @@ return (
             )}
         </div>
         <div style={{ display: "flex", flexDirection: "row", width: "250px" }}>
-            OR Register for an account.
+         OR Register for an account.
         </div>
 
     </>

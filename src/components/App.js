@@ -1,5 +1,5 @@
 import React, { useDebugValue, useEffect, useState } from "react"
-
+import WebFont from 'webfontloader';
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,11 +14,20 @@ import Products from './Products';
 import Login from "./logIn";
 import UserAccount from "./UserAccount";
 import HotSauces from './HotSauces'
-import BBQsauces from "./BBQsauces";
-import Register from "./Register";
+
+import SingleProduct from "./singleProduct";
+
+
 
 
 const App = () => {
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: [ 'Chivo', 'sans-serif']
+      }
+    });
+   }, []);
   const [APIHealth, setAPIHealth] = useState('');
 
   //holds state of token to be used for login and logout check
@@ -60,21 +69,19 @@ const App = () => {
   return (
 
 <Router>
-    <div className="app-container">
-        <h1>SAUCE SPOT</h1>
-        <h2>Welcome, {username}</h2>
+
+    <div  style={ {color: "grey", fontFamily: ['Chivo', 'sans-serif']}}className="app-container">
+        <h1 style={{color:"black", letterSpacing:"-2px"}}>
+          SAUCE  SP<img style= {{  height: "25px", width: "30px"}}src="https://cdn-icons-png.flaticon.com/128/3/3835.png"/>T
+          </h1>
+
         <p>API Status: {APIHealth}</p>
+        < Route exact path= "/products/singleProduct"><SingleProduct/></Route>
+        <Route exact path= "/products"><Products/></Route>
+        <Route path= "/products/hotshop"><HotSauces/></Route>
         <Route><Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
 
-    <Switch> 
-      <Route path= "/profile"><UserAccount username={username} /></Route>
 
-      <Route exact path= "/products"><Products/></Route>
-      <Route path= "/products/hotshop"><HotSauces/></Route>
-      <Route path= "/products/smokeshop"><BBQsauces/></Route>
-      <Route path= "/register"><Register/></Route>
-      
-    </Switch>
 
     </div>
     </Router>
