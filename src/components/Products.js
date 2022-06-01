@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react"
-// going to have to pass in isadmin boolean for product update form and product create form and delete
+
 
 
 
@@ -30,6 +30,7 @@ const Products = () =>{
         }
 
 
+    }
     const getProducts= async()=>{
         try {
             const result = await fetch ('http://localhost:4000/api/products');
