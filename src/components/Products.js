@@ -1,7 +1,9 @@
 
 import React, { useEffect, useState } from "react"
 
+
 import WebFont from 'webfontloader';
+
 
 
 
@@ -30,7 +32,6 @@ const Products = () =>{
         }
 
 
-    }
     const getProducts= async()=>{
         try {
             const result = await fetch ('http://localhost:4000/api/products');
