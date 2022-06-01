@@ -126,7 +126,8 @@ userRouter.post("/login", async (req, res, next) => {
     try {
         const {username, email, address, isAdmin} = req.body
         console.log(req.params.id)
-        const userInfo = await updateUser({id: req.params.id, username, email, address, isAdmin })
+    
+        const userInfo = await updateUser( req.params.id, {username, email, address, isAdmin })
         res.send(userInfo)
     } catch (error) {
         next(error)}
