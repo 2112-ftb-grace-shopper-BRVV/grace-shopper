@@ -4,10 +4,6 @@ import React, { useEffect, useState } from "react"
 
 import WebFont from 'webfontloader';
 
-
-
-
-
 const Products = () =>{
     const [products, setProducts] = useState([])
     const [name, setName] = useState('')

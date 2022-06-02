@@ -13,12 +13,8 @@ import '../style/App.css';
 import Products from './Products';
 import Login from "./logIn";
 import UserAccount from "./UserAccount";
-import HotSauces from './HotSauces'
-
+import HotSauces from './HotSauces';
 import SingleProduct from "./singleProduct";
-
-
-
 
 const App = () => {
   useEffect(() => {
@@ -30,15 +26,13 @@ const App = () => {
    }, []);
   const [APIHealth, setAPIHealth] = useState('');
 
-  //holds state of token to be used for login and logout check
-  const [token, setToken] = useState('')
-
-  console.log("Hello!")
+  //holds state of token to be used for login and logout check   
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false)
   const [username, setUsername] = useState("")
-  
-  useEffect(() => {
+  const [userInfo, setUserInfo] = useState({})
+  useEffect( async() => {
     // follow this pattern inside your useEffect calls:
     // first, create an async function that will wrap your axios service adapter
     // invoke the adapter, await the response, and set the data
@@ -60,15 +54,31 @@ const App = () => {
     } else {
       setUsername("")
     }
+
+    try {
+      const response = await fetch('http://localhost:4000/api/user/profile', {
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }            
+      });      
+
+      const json = await response.json();             
+      setUserInfo(json)
+  } catch (error) {        
+      console.error(error, "Something went wrong")
+  }
+    
+    
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
-
-
+  
   return (
 
-<Router>
+  <Router>
 
     <div  style={ {color: "grey", fontFamily: ['Chivo', 'sans-serif']}}className="app-container">
         <h1 style={{color:"black", letterSpacing:"-2px"}}>
@@ -77,14 +87,13 @@ const App = () => {
 
         <p>API Status: {APIHealth}</p>
         < Route exact path= "/products/singleProduct"><SingleProduct/></Route>
-        <Route exact path= "/products"><Products/></Route>
+        {userInfo.isAdmin ? <Route exact path= "/products"><Products/></Route> : null}
         <Route path= "/products/hotshop"><HotSauces/></Route>
         <Route><Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
-
-
+        <Route path="/profile"><UserAccount/></Route>
 
     </div>
-    </Router>
+  </Router>
   );
 };
 
