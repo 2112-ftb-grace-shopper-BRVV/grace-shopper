@@ -90,6 +90,8 @@ const Cart = ()=>{
                     "Content-Type": "application/json"},
      
             })
+            let update = await getProducts()
+            setProducts(update)
         } catch (error) {
             console.log(error)
             throw(error)
@@ -113,17 +115,15 @@ const Cart = ()=>{
       useEffect(() => {
         getProducts()
             .catch(console.error)
-
         getUserCart()
         .catch(console.error)
-
                   
     }, []);
     
     return(<div>
 
 <div style={{display:"flex", flexDirection:"column",  transition: "all .4s ease",  boxShadow: "10px 10px rgba(0,0,0,.15)",  borderRadius: "0% 0% 0% 0% / 0% 0% 0% 0% "}}>
-        {cart.map((c =>{return(<div key={c.id} >
+        { cart ? cart.map((c =>{return(<div key={c.id} >
             {console.log(cart)}
             <img style={{height: "75px", width: "75px"}} src={grabImage(c.productId)} alt={c.name}/>
            <p style={{color:"black"}}>{grabName(c.productId)}</p> 
@@ -137,17 +137,17 @@ const Cart = ()=>{
                 <option value="4">4</option>
                 <option value="5">5</option>
                 </select>
-           </p>  */}
+           </p>  */ }
            
           
            <button style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",  
             boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}}  id = {c.productId} onClick={(event)=>{removeFromCart(event.target.id) }}>Remove</button>
-     
+      
         </div>)
 
         })
   
-        )}
+        )  :null}
         <Link to = "cart/checkout">
      <button style={{ fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",  
       boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}} >Check out</button></Link>
