@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react"
-
+import React, { useEffect, useState} from "react"
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams
+  } from "react-router-dom";
 
 const SingleProduct = ()=>{
     const [product, setProducts] = useState([])
@@ -7,12 +13,15 @@ const SingleProduct = ()=>{
     const [cart, setCart] = useState([])
 
     const [quantity, setQuantity] = useState(1)
-
-
+    let { id } = useParams()
+  
    async function getProd(id){
+
+        console.log(id)
+       console.log("hit")
     try {
-      const result = await fetch(`http://localhost:4000/api/products/11`)
-      const prod= await result.json()
+      const result = await fetch(`http://localhost:4000/api/products/${id}`)
+      const prod= await result.json() 
       console.log(prod)
       setProducts(prod)
         
@@ -45,7 +54,7 @@ const SingleProduct = ()=>{
 
 }
    useEffect(() => {
-    getProd()
+    getProd(id)
         .catch(console.error)
 
               
@@ -66,8 +75,7 @@ return(
 
                 <p style={{fontSize:"smaller"}}>{product.description}</p> 
                  <form>
-                <button style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey"}} id = {product.id} onClick={(event)=>{addToCart(event.target.id) }}>Add to Cart</button>
-                <select style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",   boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}}
+                 <select style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",   boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}}
                 onChange={(event)=>setQuantity(event.target.value)}>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -75,6 +83,7 @@ return(
                 <option value="4">4</option>
                 <option value="5">5</option>
                 </select>
+                <button style={{ fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey"}} id = {product.id} onClick={(event)=>{addToCart(event.target.id) }}>Add to Cart</button>
                  </form>
       
             </div>

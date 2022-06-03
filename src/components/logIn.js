@@ -64,8 +64,7 @@ return (
         <div style={{ display: "flex", alignItems: "center" }}>
             {isLoggedIn ? (
                 <>
-                    <h3>Log Out</h3>
-                    <button onClick={logOut}>Log Out</button>
+                    <button  style={{color:"gray"}}onClick={logOut}>Log Out</button>
                 </>
             ) : (
                 <>
@@ -87,7 +86,7 @@ return (
             )}
         </div>
         <div style={{ display: "flex", flexDirection: "row", width: "250px" }}>
-         OR Register for an account.
+         {/* OR Register for an account. */}
         </div>
 
     </>
