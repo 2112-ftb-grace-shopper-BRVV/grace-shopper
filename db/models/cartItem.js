@@ -34,11 +34,12 @@ async function createCartItem({ cartId, productId, quantity}) {
   async function deleteCartItem(id){
 
     try {
+       const {rows}= await client.query(`
+        SELECT * FROM cartItem WHERE "productId"= ${id} AND "cartId"=1; `)
+        console.log(rows)
+        console.log(id)
         const{rows: cartItem} = await client.query(`
-        UPDATE cartItem
-         SET "cartId" = 0
-          WHERE "productId" = $1 
-          RETURNING *;`, [id]
+        DELETE FROM cartItem WHERE "productId" = $1 AND "cartId" = 1`, [id]
         )
         return cartItem
     } catch (error) {
