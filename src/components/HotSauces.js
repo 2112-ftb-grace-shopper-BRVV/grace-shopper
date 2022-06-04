@@ -112,7 +112,7 @@ return(
               boxShadow:"rgba(0, 0, 0, 0.04) 0px 3px 5px",
             display:"flex", flexDirection: "column",marginTop:"4vw", justifyContent: "space-around", flexWrap:"wrap", width:"25vw", height:"25vw"}}>
               <img style={{height: "125px", width: "125px"}} src={prod.img} alt={prod.name}/>
-                <p style={{fontWeight:"bolder", color:"black"}}>{prod.name}</p>
+                <p style={{fontWeight:"bolder", color:"black", paddingLeft:"20px", paddingRight:"20px"}}>{prod.name}</p>
                 <p > Heat Check: {values* .10 + 1}/10</p>
                 <h3> ${prod.price} </h3>
 

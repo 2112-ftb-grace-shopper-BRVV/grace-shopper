@@ -105,7 +105,7 @@ const App = () => {
 
 
 
-        <body style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+        <body style={{ display: "flex", alignItems: "center", justifyContent:"space-between", flexDirection: "column" }}>
           <Switch>
             <Route exact path="/">
               <Home products={products}></Home>
@@ -133,8 +133,9 @@ const App = () => {
             <Route exact path="/register"><Register /></Route>
             <Route path="/*"><Notfound /></Route>
           </Switch>
+          <Route><Footer/></Route>   
         </body>
-        <Route><Footer/></Route>   
+        
       </div>
       
     </Router>
