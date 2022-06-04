@@ -69,22 +69,22 @@ const Register = (props) => {
   <div >
     <form className="regform">
       
-      <label>Username:</label>
-      <input value={username} onChange={handleUserName} required />
+      <label className="reglabel">Username:</label>
+      <input className="reginput" placeholder="Username*" value={username} onChange={handleUserName} required />
 
-      <label>Password:</label>
-      <input value={password} onChange={handlePassword} required />
+      <label className="reglabel" >Password:</label>
+      <input className="reginput" placeholder="Password*" value={password} onChange={handlePassword} required />
 
-      <label>Confirm Password:</label>
-      <input value={confirmPassword} onChange={handleReenterPassword} required/>
+      <label className="reglabel" >Confirm Password:</label>
+      <input className="reginput" placeholder="Password Again*" value={confirmPassword} onChange={handleReenterPassword} required/>
 
-      <label>address:</label>
-      <input value={address} onChange={handleAddress} required />
+      <label className="reglabel" >Shipping Address:</label>
+      <input className="reginput" style={{width:"25vw"}} placeholder="Address*" value={address} onChange={handleAddress} required />
 
-      <label>email:</label>
-      <input value={email} onChange={handleEmail} required />   
+      <label className="reglabel" >Email:</label>
+      <input className="reginput" placeholder="Email*" value={email} onChange={handleEmail} required />   
 
-      <button onClick={registerUser}>
+      <button className="regbutton" onClick={registerUser}>
         Register!
       </button>
     </form>

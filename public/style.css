@@ -2,6 +2,36 @@
     display: flex;
     flex-direction:column;    
 }
+.reginput{
+    display: flex;
+    align-self: center;
+    border: 3px solid grey;
+    height: 30px;
+    width: 10vw;
+}
+.reglabel{
+    display: flex;
+    align-self: center;
+    color: black;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.regbutton{
+    align-self: center;
+    margin-top: 20px;
+    height: 30px;
+    width: 100px;
+    background-color: lightgrey;
+    box-shadow: 5px 3px 5px grey;
+    font-family: 'Courier New', Courier, monospace; 
+    font-weight: bolder; 
+    font-size: medium;  
+}
+.regbutton:hover{
+    background-color: grey;
+    box-shadow: 5px 3px 3px grey; 
+}
+
 .loginlogout {
     height: 30px;
     background-color: lightgrey;
