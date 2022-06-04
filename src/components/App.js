@@ -36,7 +36,7 @@ const App = () => {
 //   useEffect( async() => {
 
   //holds state of token to be used for login and logout check
-  const [token, setToken] = useState('')
+
 
   const getDisplayProducts= async()=>{
     try {
@@ -60,39 +60,11 @@ const App = () => {
   console.log("Hello!")
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token =localStorage.getItem("token");
   
-  
-  useEffect(() => {
-    getDisplayProducts()
-    .catch(console.error)
 
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
-    const getAPIStatus = async () => {
-      const { healthy } = await getAPIHealth();
-      setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
-    };
-    WebFont.load({
-      google: {
-        families: [ 'Chivo', 'sans-serif']
-      }
-    })
 
-    const token =localStorage.getItem("token");
-
-    if (token && token.length) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-
-    if (storedUsername) {
-      setUsername(storedUsername)
-    } else {
-      setUsername("")
-    }
-
+    useEffect( async() => {
     try {
       const response = await fetch('http://localhost:4000/api/user/profile', {
           method: "GET",
@@ -107,7 +79,35 @@ const App = () => {
   } catch (error) {        
       console.error(error, "Something went wrong")
   }
-    
+  getDisplayProducts()
+  .catch(console.error)
+
+  // follow this pattern inside your useEffect calls:
+  // first, create an async function that will wrap your axios service adapter
+  // invoke the adapter, await the response, and set the data
+  const getAPIStatus = async () => {
+    const { healthy } = await getAPIHealth();
+    setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
+  };
+  WebFont.load({
+    google: {
+      families: [ 'Chivo', 'sans-serif']
+    }
+  })
+
+  
+  const storedUsername = localStorage.getItem("username")
+  if (token && token.length) {
+    setIsLoggedIn(true);
+  } else {
+    setIsLoggedIn(false);
+  }
+
+  if (storedUsername) {
+    setUsername(storedUsername)
+  } else {
+    setUsername("")
+  }
 
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
@@ -179,6 +179,6 @@ const App = () => {
     </Router>
 
   );
-};
+}
 
 export default App;
