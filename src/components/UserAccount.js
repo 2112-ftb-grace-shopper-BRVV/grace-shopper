@@ -1,3 +1,7 @@
+/**
+ * NOTE/TODO: This component isn't fully implemented yet, we'll come back to it later
+ */
+
 import { user } from "pg/lib/defaults";
 import React, { useEffect, useState } from "react"
 
@@ -8,11 +12,8 @@ const [username, setUsername] = useState("")
 const [shippingAddress, setShippingAddress] = useState("") 
 const [email, setEmail] = useState("") 
 
-console.log(`this is our current user data: ${username}, ${shippingAddress}, ${email}`)
-
 const updateInfo= async (id)=>{
-    
-    console.log("hitting the function updateinfo")
+   
         try {
         const result = await fetch (`http://localhost:4000/api/user/${userInfo.id}`,{
             method: "PATCH",
@@ -21,21 +22,16 @@ const updateInfo= async (id)=>{
             body: JSON.stringify({
                 username: username,
                 address: shippingAddress,
-                email: email
-       
+                email: email       
             })
-
         })
         const updatedUser = await result.json()
-
         } catch (error) {
             console.error(error)
-
         }
 }
 
-    useEffect( async () => {
-        
+    useEffect( async () => {        
             try {
         const response = await fetch('http://localhost:4000/api/user/profile', {
             method: "GET",
@@ -44,10 +40,8 @@ const updateInfo= async (id)=>{
                 'Authorization': `Bearer ${token}`
             }            
         });
-        console.log(response)
-
-        const json = await response.json();
-        console.log(json)       
+        
+        const json = await response.json();             
         setUserInfo(json)
     } catch (error) {        
         console.error(error, "Something went wrong")
