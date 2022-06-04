@@ -16,18 +16,24 @@ import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
 import Products from './Products';
 import Login from "./logIn";
-
 import HotSauces from './HotSauces'
 import SingleProduct from "./singleProduct";
 import Cart from "./cart";
 import Checkout from "./checkout";
 
-
-
 const App = () => {
   const [products, setProducts] = useState([])
 
   const [APIHealth, setAPIHealth] = useState('');
+
+
+  //holds state of token to be used for login and logout check   
+
+
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [username, setUsername] = useState("")
+  const [userInfo, setUserInfo] = useState({})
+//   useEffect( async() => {
 
   //holds state of token to be used for login and logout check
   const [token, setToken] = useState('')
@@ -59,6 +65,7 @@ const App = () => {
   useEffect(() => {
     getDisplayProducts()
     .catch(console.error)
+
     // follow this pattern inside your useEffect calls:
     // first, create an async function that will wrap your axios service adapter
     // invoke the adapter, await the response, and set the data
@@ -79,13 +86,38 @@ const App = () => {
     } else {
       setIsLoggedIn(false);
     }
+
+    if (storedUsername) {
+      setUsername(storedUsername)
+    } else {
+      setUsername("")
+    }
+
+    try {
+      const response = await fetch('http://localhost:4000/api/user/profile', {
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          }            
+      });      
+
+      const json = await response.json();             
+      setUserInfo(json)
+  } catch (error) {        
+      console.error(error, "Something went wrong")
+  }
+    
+
     // second, after you've defined your getter above
     // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
-
-
+  
   return (
+
+
+//         {userInfo.isAdmin ? <Route exact path= "/products"><Products/></Route> : null}
 
 <Router>
     <div style={ {color: "grey", fontFamily: ['Chivo', 'sans-serif']}}className="app-container">
@@ -145,6 +177,7 @@ const App = () => {
     </div>
 
     </Router>
+
   );
 };
 
