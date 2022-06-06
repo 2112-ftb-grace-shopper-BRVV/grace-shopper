@@ -1,3 +1,5 @@
+
+   
 import React, { useEffect, useState } from "react"
 
 const Login = (props) => {
@@ -46,7 +48,7 @@ const Login = (props) => {
 
     return (
         <>
-            <div style={{ display: "flex", alignItems:"center" ,marginRight:"3vw",paddingLeft:"30vw"}}>
+            <div style={{ display: "flex", alignItems:"center", marginRight:"20px"}}>
                 {isLoggedIn ? (
                     <>
                         <button className="loginlogout" onClick={logOut}>Log Out</button>

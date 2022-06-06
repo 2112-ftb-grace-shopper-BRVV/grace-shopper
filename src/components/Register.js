@@ -66,7 +66,7 @@ const Register = (props) => {
     }
  
   return (
-  <div >
+  <div style={{color:"lightgrey"}}>
     <form className="regform">
       
       <label className="reglabel">Username:</label>
