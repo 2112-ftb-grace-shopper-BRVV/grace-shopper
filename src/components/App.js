@@ -101,9 +101,15 @@ const App = () => {
     //         {userInfo.isAdmin ? <Route exact path= "/products"><Products/></Route> : null}
     <Router>
       <div style={{ color: "grey", fontFamily: ['Chivo', 'sans-serif'] }} className="app-container">
+      <header>
+      <Link to="/" style={{ textDecoration: "none", color: "grey", display:"flex", alignItems:"center",fontWeight:"bold" }}>
+            <h1 style={{ display:"flex",justifyContent:"flex-start",alignContent:"center", flexDirection:"row", color: "black", letterSpacing: "-2px",marginLeft:"1vw" }}> 
+            SAUCE  SP
+            <img style={{ height: "30px", width: "35px", marginTop:"3px", marginLeft:"-3px", marginRight:"-5px"}}
+             src="https://cdn-icons-png.flaticon.com/128/3/3835.png" />T</h1>
+          </Link>
       <Route><Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/></Route>
-
-
+      </header>
 
         <body style={{ display: "flex", alignItems: "center", justifyContent:"space-between", flexDirection: "column" }}>
           <Switch>
@@ -112,7 +118,7 @@ const App = () => {
             </Route>
             {userInfo.isAdmin && <Route exact path="/products"><Products /></Route>}
             <Route exact path="/products/hotshop">
-              <h1 style={{ color: "grey" }}>OUR HOT SAUCES</h1>
+              <h1 style={{ color: "grey",marginBottom:"50px" }}>BROWSE OUR HOT SAUCES</h1>
               <h3>PICK YOUR HEAT.</h3>
               <HotSauces />
             </Route>

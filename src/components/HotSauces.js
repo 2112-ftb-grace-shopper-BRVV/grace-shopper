@@ -105,7 +105,7 @@ return(
 <div style={{display:"flex", flexDirection:"row", flexWrap:"wrap"}}>
   {products.map((prod)=>{
         return(
-          <Link to ={{
+          <Link id ={prod.id} to ={{
             pathname: "/products/hotshop"+`/${prod.id}`}} style={{textDecoration:"none", color:"grey"}} >
             <div  key={prod.id } style={{
              alignItems:"center",
@@ -115,20 +115,6 @@ return(
                 <p style={{fontWeight:"bolder", color:"black", paddingLeft:"20px", paddingRight:"20px"}}>{prod.name}</p>
                 <p > Heat Check: {values* .10 + 1}/10</p>
                 <h3> ${prod.price} </h3>
-
-
-                {/* <p style={{fontSize:"smaller"}}>{prod.description}</p> */}
-                {/* <form>
-                <button style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey"}} id = {prod.id} onClick={(event)=>{addToCart(event.target.id) }}>Add to Cart</button>
-                <select style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",   boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}}
-                onChange={(event)=>setQuantity(event.target.value)}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                </select>
-                 </form> */}
       
             </div>
             </Link>

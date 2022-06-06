@@ -9,10 +9,9 @@ import {
 
 const Cart = ()=>{
     const [products, setProducts] = useState([])
-    const [values, setValues] = useState([0]);
     const [cart, setCart] = useState([])
     const [quantity, setQuantity] = useState(1)
-    const [cartTotal, setCartTotal]= useState(0)
+    let total = 0
 
     const getProducts= async()=>{
         try {
@@ -50,7 +49,7 @@ const Cart = ()=>{
      function grabPrice(id, quantity){
         let i = products.filter(prod=> (prod.id === id))
         let price = i[0].price
-  
+         total += (price * quantity)
         return price
     }
      function grabName(id){
@@ -98,17 +97,27 @@ const Cart = ()=>{
         }
   
     }
-    async function updateQuantity(quantity){
+    async function updateQuantity(id, quantity){
         try {
-          
+            await fetch(`http://localhost:4000/api/cartItem/${id}`,{
+                method: "PATCH",
+                headers: {
+                 "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    quantity: quantity
+                })
+    
+            })
           
         } catch (error) {
-          
+          console.log(error)
         }
       }
   
-       function getSubTotal(){
+       async function getSubTotal(){
          console.log("im being hit")
+
+
        }
 
   
@@ -124,20 +133,19 @@ const Cart = ()=>{
 
 <div style={{display:"flex", flexDirection:"column",  transition: "all .4s ease",  boxShadow: "10px 10px rgba(0,0,0,.15)",  borderRadius: "0% 0% 0% 0% / 0% 0% 0% 0% "}}>
         { cart ? cart.map((c =>{return(<div key={c.id} >
-            {console.log(cart)}
+            
             <img style={{height: "75px", width: "75px"}} src={grabImage(c.productId)} alt={c.name}/>
            <p style={{color:"black"}}>{grabName(c.productId)}</p> 
            <p>Price: ${grabPrice(c.productId, c.quantity)}.00</p>
-           {/* <p>Total: ${grabPrice(c.productId, c.quantity) * c.quantity+".00"}</p>  */}
            <p>Quantity: {c.quantity}</p>
-           {/* <select defaultValue={ c.quantity} onChange={(event)=>updateQuantity(event.target.value)}>
+             <select defaultValue={ c.quantity} onChange={(event)=>updateQuantity(c.id, event.target.value)}>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
                 </select>
-           </p>  */ }
+            
            
           
            <button style={{fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",  
@@ -146,12 +154,14 @@ const Cart = ()=>{
         </div>)
 
         })
-  
-        )  :null}
+        
+        )  : (<h1 style={{color:"grey"}}>YOUR CART IS EMPTY!</h1>)}
         <Link to = "cart/checkout">
-     <button style={{ fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",  
-      boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}} >Check out</button></Link>
-     <p style={{color:"black"}}>Subtotal: $33.00</p>
+         <button style={{ fontFamily: ['Chivo', 'sans-serif'], background: "white", color: "black", border: ".5px solid grey",  
+         boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}} >
+          Check out
+          </button></Link>
+     <p style={{color:"black"}}>Subtotal: ${total}</p>
     </div>
     </div>)
     
