@@ -161,7 +161,7 @@ const Cart = ()=>{
          boxshadow: `0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)`}} >
           Check out
           </button></Link>
-     <p style={{color:"black"}}>Subtotal: ${total}</p>
+     <p style={{color:"black"}}>Subtotal: ${total}.00</p>
     </div>
     </div>)
     
