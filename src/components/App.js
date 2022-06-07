@@ -52,20 +52,20 @@ const App = () => {
   const token = localStorage.getItem("token");
 
   useEffect(async () => {
-    // try {
-    //   const response = await fetch('http://localhost:4000/api/user/profile', {
-    //     method: "GET",
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Bearer ${token}`
-    //     }
-    //   });
+    try {
+      const response = await fetch('http://localhost:4000/api/user/profile', {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-    //   const json = await response.json();
-    //   setUserInfo(json)
-    // } catch (error) {
-    //   console.error(error, "Something went wrong")
-    // }
+      const json = await response.json();
+      setUserInfo(json)
+    } catch (error) {
+      console.error(error, "Something went wrong")
+    }
     getDisplayProducts()
       .catch(console.error)
 
@@ -113,7 +113,7 @@ const App = () => {
             <Route exact path="/">
               <Home products={products}></Home>
             </Route>
-            {userInfo.isAdmin && <Route exact path="/products"><Products /></Route>}
+            {userInfo.isAdmin ? <Route exact path="/products"><Products /></Route> : null}
             <Route exact path="/products/hotshop">
               <h1 style={{ color: "grey",marginBottom:"50px" }}>BROWSE OUR HOT SAUCES</h1>
               <h3>PICK YOUR HEAT.</h3>

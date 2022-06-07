@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Register = (props) => {
   const [username, setUsername] = useState("");
@@ -40,7 +40,14 @@ const Register = (props) => {
     return json;
     } catch (error){console.error(error, "Something's still wrong with registering the user!")}
 } 
-   
+
+  
+
+   useEffect(()=> {
+    localStorage.getItem("token")
+    
+
+   }, [])  
 
     // if(password !== confirmPassword) {
     //   alert("Password does not match")

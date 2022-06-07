@@ -121,7 +121,7 @@ const Cart = ()=>{
        }
 
   
-      useEffect(() => {
+      useEffect( async () => {
         getProducts()
             .catch(console.error)
         getUserCart()
@@ -132,7 +132,7 @@ const Cart = ()=>{
     return(<div>
 
 <div style={{display:"flex", flexDirection:"column",  transition: "all .4s ease",  boxShadow: "10px 10px rgba(0,0,0,.15)",  borderRadius: "0% 0% 0% 0% / 0% 0% 0% 0% "}}>
-        { cart ? cart.map((c =>{return(<div key={c.id} >
+        { products ? cart.map((c =>{return(<div key={c.id} >
             
             <img style={{height: "75px", width: "75px"}} src={grabImage(c.productId)} alt={c.name}/>
            <p style={{color:"black"}}>{grabName(c.productId)}</p> 
