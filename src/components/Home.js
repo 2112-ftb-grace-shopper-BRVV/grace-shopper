@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+
 import { Carousel } from 'react-responsive-carousel';
 import '../style/App.css';
 
@@ -32,7 +33,7 @@ const Home = ({products}) => {
                 )
 
               }))}
-            </Carousel>
+ </Carousel>
 
 </div>
 

@@ -6,9 +6,6 @@ import {
   Route,
   Link
 } from "react-router-dom";
-
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
 import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
 import Products from './Products';
@@ -55,20 +52,20 @@ const App = () => {
   const token = localStorage.getItem("token");
 
   useEffect(async () => {
-    try {
-      const response = await fetch('http://localhost:4000/api/user/profile', {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
+    // try {
+    //   const response = await fetch('http://localhost:4000/api/user/profile', {
+    //     method: "GET",
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Authorization': `Bearer ${token}`
+    //     }
+    //   });
 
-      const json = await response.json();
-      setUserInfo(json)
-    } catch (error) {
-      console.error(error, "Something went wrong")
-    }
+    //   const json = await response.json();
+    //   setUserInfo(json)
+    // } catch (error) {
+    //   console.error(error, "Something went wrong")
+    // }
     getDisplayProducts()
       .catch(console.error)
 
